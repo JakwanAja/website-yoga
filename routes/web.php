@@ -4,26 +4,47 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
-// ─── PUBLIC ───────────────────────────────────────────
-Route::get('/',        [PublicController::class, 'landing'])->name('home');
-Route::get('/jadwal',  [PublicController::class, 'jadwal'])->name('jadwal');
-Route::get('/booking', [PublicController::class, 'booking'])->name('booking');
+Route::view('/', 'home')->name('home');
+Route::view('/about', 'about')->name('about');
+Route::view('/class', 'class')->name('class');
+Route::view('/schedule', 'schedule')->name('schedule');
 
-// ─── AUTH ─────────────────────────────────────────────
-Route::middleware('guest')->group(function () {
-    Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::view('/booking', 'booking')->name('booking');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout')
-    ->middleware('auth');
+Route::prefix('admin')->group(function () {
+    Route::get('/jadwal', function () {
+        return view('admin.jadwal');
+    })->name('admin.jadwal');
+});
 
-// ─── ADMIN ────────────────────────────────────────────
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard')->middleware(['auth', 'role:admin,super_admin']);
+Route::prefix('admin')->group(function () {
+    Route::get('/user', function () {
+        return view('admin.user');
+    })->name('admin.user');
+});
 
-Route::get('/superadmin/dashboard', function () {
-    return view('superadmin.dashboard');
-})->name('superadmin.dashboard')->middleware(['auth', 'role:super_admin']);
+Route::prefix('admin')->group(function () {
+    Route::get('/booking', function () {
+        return view('admin.booking');
+    })->name('admin.booking');
+});
+
+Route::prefix('superadmin')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('superadmin.dashboard');
+    })->name('superadmin.dashboard');
+
+    Route::get('/admin', function () {
+        return view('superadmin.admin');
+    })->name('superadmin.admin');
+
+});
+
+Route::view('/login', 'login')->name('login');
