@@ -1,113 +1,182 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
 <style>
-    .wrapper {
-        display: flex;
-        height: calc(100vh - 80px);
+    body {
+        background-color: #e8dccf;
+        font-family: 'Georgia', serif;
     }
 
-    /* sidebar */
-    .sidebar {
-        width: 220px;
-        background: #d6c5b4;
-        padding: 20px;
-    }
-
-    .sidebar h3 {
-        font-family: 'Playfair Display', serif;
-        margin-bottom: 30px;
-    }
-
-    .menu {
-        margin: 15px 0;
-        padding: 10px;
-        background: #cbb7a4;
-        border-radius: 10px;
-    }
-
-    /* content */
-    .content {
-        flex: 1;
-        background: #e8dccf;
+    .dashboard {
         padding: 30px;
     }
 
+    /* Header */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .title {
+        font-size: 28px;
+        color: #6b3e3e;
+    }
+
+    .studio {
+        font-family: 'Lavishly Yours', cursive;
+        font-size: 28px;
+        color: #6b3e3e;
+        font-style: italic;
+    }
+
+    /* Cards */
+    .cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
     .card {
-        background: #f3ebe3;
+        flex: 1;
+        background: rgba(217, 201, 184, 0.85);
         padding: 20px;
         border-radius: 20px;
+        border: 1px solid #6b5a4a;
+    }
+
+    .card h3 {
+        font-size: 14px;
+        color: #6b5a4a;
+        margin-bottom: 10px;
+    }
+
+    .card h1 {
+        font-size: 26px;
+        color: #6b3e3e;
+    }
+
+    /* Table */
+    .table-container {
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .table-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.2;
     }
 
     table {
         width: 100%;
-        margin-top: 20px;
         border-collapse: collapse;
+        background-color: rgba(217, 201, 184, 0.9);
+        position: relative;
+        z-index: 2;
     }
 
     th, td {
-        padding: 10px;
+        padding: 12px;
         text-align: left;
+        border-bottom: 1px solid #6b5a4a;
     }
 
     th {
-        border-bottom: 2px solid #aaa;
+        color: #6b3e3e;
+        font-weight: bold;
     }
 
-    .btn {
-        padding: 5px 10px;
+    td {
+        font-size: 14px;
+        color: #5a2e2e;
+    }
+
+    /* Status */
+    .status {
+        padding: 5px 12px;
         border-radius: 10px;
-        border: none;
         font-size: 12px;
-        cursor: pointer;
     }
 
-    .edit { background: #c49a9a; color:white; }
-    .hapus { background: #a66; color:white; }
+    .success {
+        background: #d4e6d4;
+        color: #2f5d2f;
+    }
+
+    .pending {
+        background: #f3e1c7;
+        color: #8a6d3b;
+    }
 </style>
 
-<div class="wrapper">
+<div class="dashboard">
 
-    <!-- sidebar -->
-    <div class="sidebar">
-        <h3>Asha Studio</h3>
-
-        <div class="menu">Dashboard</div>
-        <div class="menu">Jadwal</div>
-        <div class="menu">Booking</div>
+    <!-- Header -->
+    <div class="header">
+        <div class="title">ADMIN DASHBOARD</div>
+        <div class="studio">Asha Studio</div>
     </div>
 
-    <!-- content -->
-    <div class="content">
-        <h2>KELOLA JADWAL</h2>
+    <!-- Statistik -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Booking</h3>
+            <h1>120</h1>
+        </div>
 
         <div class="card">
+            <h3>Total User</h3>
+            <h1>80</h1>
+        </div>
 
-            <table>
+        <div class="card">
+            <h3>Kelas Aktif</h3>
+            <h1>6</h1>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+
+        <!-- Background -->
+        <img src="{{ asset('images/yoga-bg.jpg') }}" class="table-bg">
+
+        <table>
+            <thead>
                 <tr>
                     <th>Nama</th>
                     <th>Email</th>
-                    <th>Jadwal</th>
-                    <th>Aksi</th>
+                    <th>No HP</th>
+                    <th>Kelas</th>
+                    <th>Status</th>
                 </tr>
+            </thead>
 
-                @foreach($data as $d)
+            <tbody>
                 <tr>
-                    <td>{{ $d->nama }}</td>
-                    <td>{{ $d->email }}</td>
-                    <td>{{ $d->jadwal }}</td>
-                    <td>
-                        <a href="/delete/{{ $d->id }}">
-                            <button class="btn hapus">Hapus</button>
-                        </a>
-                    </td>
+                    <td>Irma</td>
+                    <td>irma@email.com</td>
+                    <td>08123456789</td>
+                    <td>Beginner Yoga</td>
+                    <td><span class="status success">Sukses</span></td>
                 </tr>
-                @endforeach
 
-            </table>
+                <tr>
+                    <td>Budi</td>
+                    <td>budi@email.com</td>
+                    <td>08234567890</td>
+                    <td>Pilates Core</td>
+                    <td><span class="status pending">Pending</span></td>
+                </tr>
+            </tbody>
+        </table>
 
-        </div>
     </div>
 
 </div>

@@ -24,10 +24,22 @@
 
         /* Navbar */
         .navbar {
+        display: flex;
+        justify-content: space-between; /* penting */
+        align-items: center;
+        padding: 25px 60px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+        /* kiri (menu) */
+        .nav-left {
             display: flex;
             gap: 30px;
-            padding: 25px 60px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* kanan (logo) */
+        .nav-right img {
+            height: 40px; /* kecil & elegan */
         }
 
         .navbar a {
@@ -35,6 +47,14 @@
             color: #555;
             font-size: 24px;
             letter-spacing: 1px;
+        }
+
+        .nav-right img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #c49a9a; /* garis soft */
         }
 
         .navbar a:hover {
@@ -45,11 +65,22 @@
 <body>
 
 <!-- Navbar -->
+<!-- Navbar -->
 <div class="navbar">
-    <a href="{{ route('home') }}">HOME</a>
-    <a href="{{ route('about') }}">ABOUT</a>
-    <a href="{{ route('class') }}">CLASS</a>
-    <a href="{{ route('schedule') }}">SCHEDULE</a>
+    
+    <!-- Menu -->
+    <div class="nav-left">
+        <a href="{{ route('home') }}">HOME</a>
+        <a href="{{ route('about') }}">ABOUT</a>
+        <a href="{{ route('class') }}">CLASS</a>
+        <a href="{{ route('schedule') }}">SCHEDULE</a>
+    </div>
+
+    <!-- Logo -->
+    <div class="nav-right">
+        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
+    </div>
+
 </div>
 
 <!-- Isi halaman -->

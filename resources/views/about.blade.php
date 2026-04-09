@@ -63,7 +63,7 @@
 <div class="about-container">
 
     <div class="about-left">
-        <img src="{{ asset('images/studio.jpg') }}">
+        <img src="{{ asset('images/studio.jpeg') }}">
     </div>
 
     <div class="about-right">

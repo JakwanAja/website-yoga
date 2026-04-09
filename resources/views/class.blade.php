@@ -91,7 +91,7 @@
     <!-- Card 1 -->
     <div class="card">
         <h3>Beginner Yoga</h3>
-        <img src="{{ asset('images/yoga1.jpg') }}" alt="Beginner Yoga">
+        <img src="{{ asset('images/yoga1.jpeg') }}" alt="Beginner Yoga">
         <p>
             Kelas yoga untuk pemula yang ingin mengenal dasar-dasar yoga
             seperti teknik pernapasan, peregangan tubuh, dan keseimbangan.
@@ -102,7 +102,7 @@
     <!-- Card 2 -->
     <div class="card">
         <h3>Pilates Core Strength</h3>
-        <img src="{{ asset('images/yoga2.jpg') }}" alt="Pilates">
+        <img src="{{ asset('images/yoga2.jpeg') }}" alt="Pilates">
         <p>
             Kelas pilates yang berfokus pada penguatan otot inti (core)
             untuk meningkatkan stabilitas tubuh dan memperbaiki postur.
@@ -113,7 +113,7 @@
     <!-- Card 3 -->
     <div class="card">
         <h3>Yoga Relax</h3>
-        <img src="{{ asset('images/yoga3.jpg') }}" alt="Relax Yoga">
+        <img src="{{ asset('images/yoga3.jpeg') }}" alt="Relax Yoga">
         <p>
             Kelas yoga yang berfokus pada relaksasi tubuh dan pikiran
             melalui gerakan lembut dan teknik pernapasan.

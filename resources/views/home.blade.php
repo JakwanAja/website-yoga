@@ -98,7 +98,7 @@
 
     <!-- RIGHT -->
     <div class="hero-right">
-        <img src="{{ asset('images/yoga.png') }}" alt="Yoga">
+        <img src="{{ asset('images/home.jpeg') }}" alt="Yoga">
     </div>
 
 </div>
