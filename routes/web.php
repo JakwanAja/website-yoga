@@ -33,4 +33,16 @@ Route::prefix('admin')->group(function () {
     })->name('admin.booking');
 });
 
+Route::prefix('superadmin')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('superadmin.dashboard');
+    })->name('superadmin.dashboard');
+
+    Route::get('/admin', function () {
+        return view('superadmin.admin');
+    })->name('superadmin.admin');
+
+});
+
 Route::view('/login', 'login')->name('login');

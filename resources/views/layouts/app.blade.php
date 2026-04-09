@@ -78,7 +78,7 @@
 
     <!-- Logo -->
     <div class="nav-right">
-        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
+        <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
     </div>
 
 </div>

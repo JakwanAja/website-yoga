@@ -137,27 +137,6 @@ th {
                         <button class="btn hapus">Hapus</button>
                     </td>
                 </tr>
-
-                <tr>
-                    <td>Budi</td>
-                    <td>budi@gmail.com</td>
-                    <td>User</td>
-                    <td>
-                        <button class="btn edit">Edit</button>
-                        <button class="btn hapus">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Siti</td>
-                    <td>siti@gmail.com</td>
-                    <td>User</td>
-                    <td>
-                        <button class="btn edit">Edit</button>
-                        <button class="btn hapus">Hapus</button>
-                    </td>
-                </tr>
-
             </table>
 
         </div>

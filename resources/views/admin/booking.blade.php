@@ -140,28 +140,6 @@ th {
                     </td>
                 </tr>
 
-                <tr>
-                    <td>Budi</td>
-                    <td>budi@gmail.com</td>
-                    <td>Rabu 10.00</td>
-                    <td>Disetujui</td>
-                    <td>
-                        <button class="btn edit">Edit</button>
-                        <button class="btn hapus">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Siti</td>
-                    <td>siti@gmail.com</td>
-                    <td>Jumat 16.00</td>
-                    <td>Pending</td>
-                    <td>
-                        <button class="btn edit">Edit</button>
-                        <button class="btn hapus">Hapus</button>
-                    </td>
-                </tr>
-
             </table>
 
         </div>
