@@ -1,36 +1,28 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')->name('home');
-Route::view('/about', 'about')->name('about');
-Route::view('/class', 'class')->name('class');
-Route::view('/schedule', 'schedule')->name('schedule');
+// ── Halaman Publik ──────────────────────────────────────────
+Route::view('/', 'beranda')->name('home');
 
-Route::view('/booking', 'booking')->name('booking');
+// ── Auth ────────────────────────────────────────────────────
+Route::get('/redirect-login', [LoginController::class, 'redirectIfAuthenticated'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-});
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
-Route::prefix('admin')->group(function () {
-    Route::get('/jadwal', function () {
-        return view('admin.jadwal');
-    })->name('admin.jadwal');
-});
+// ── Admin (publik, tanpa auth) ───────────────────────────────
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::prefix('admin')->group(function () {
-    Route::get('/user', function () {
-        return view('admin.user');
-    })->name('admin.user');
-});
-
-Route::prefix('admin')->group(function () {
-    Route::get('/booking', function () {
-        return view('admin.booking');
-    })->name('admin.booking');
-});
-
-Route::view('/login', 'login')->name('login');
+// ── Admin (butuh auth) ───────────────────────────────────────
+Route::prefix('admin')
+    ->middleware(['auth', 'role:admin,superadmin'])
+    ->group(function () {
+        Route::get('/jadwal',  fn() => view('admin.jadwal'))->name('admin.jadwal');
+        Route::get('/user',    fn() => view('admin.user'))->name('admin.user');
+        Route::get('/booking', fn() => view('admin.booking'))->name('admin.booking');
+    });
