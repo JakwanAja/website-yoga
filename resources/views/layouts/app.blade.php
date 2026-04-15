@@ -558,7 +558,7 @@
             <div class="footer-brand">
                 <h3>Asha Studio</h3>
                 <p>
-                    Studio yoga dan pilates terbaik di Surakarta. 
+                    Studio yoga dan pilates terbaik di Bikini Bottom. 
                     Kami berkomitmen untuk membantu Anda mencapai kesehatan dan keseimbangan hidup yang optimal.
                 </p>
                 <div class="social-links">
