@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 // ── Halaman Publik ──────────────────────────────────────────
 Route::view('/', 'beranda')->name('home');
+Route::view('/kelas', 'kelas')->name('kelas');
 
 // ── Auth ────────────────────────────────────────────────────
 Route::get('/redirect-login', [LoginController::class, 'redirectIfAuthenticated'])->name('login');
@@ -23,6 +24,6 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:admin,superadmin'])
     ->group(function () {
         Route::get('/jadwal',  fn() => view('admin.jadwal'))->name('admin.jadwal');
-        Route::get('/user',    fn() => view('admin.user'))->name('admin.user');
+        Route::get('/verifikasi',    fn() => view('admin.verifikasi'))->name('admin.verifikasi');
         Route::get('/booking', fn() => view('admin.booking'))->name('admin.booking');
     });

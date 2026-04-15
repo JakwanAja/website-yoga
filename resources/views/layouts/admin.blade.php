@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Lavishly+Yours&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
+</head>
+<style>
         :root {
             --primary:      #a67c73;
             --primary-dark: #8a6059;
@@ -417,7 +418,6 @@
     </style>
 
     @stack('styles')
-</head>
 <body>
 
     <!-- ══════════════════════════════
@@ -447,9 +447,9 @@
                class="nav-item {{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i> Jadwal
             </a>
-            <a href="{{ route('admin.user') }}"
-               class="nav-item {{ request()->routeIs('admin.user') ? 'active' : '' }}">
-                <i class="fas fa-users"></i> User
+            <a href="{{ route('admin.verifikasi') }}"
+               class="nav-item {{ request()->routeIs('admin.verifikasi') ? 'active' : '' }}">
+                <i class="fas fa-user-check"></i> Verifikasi
             </a>
 
             @if(auth()->user()?->role === 'superadmin')
@@ -494,19 +494,6 @@
                 <div class="breadcrumb">
                     Asha Studio &rsaquo; Admin &rsaquo; @yield('page-title', 'Dashboard')
                 </div>
-            </div>
-            <div class="topbar-right">
-                <button class="topbar-btn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notif-dot"></span>
-                </button>
-                <button class="topbar-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-                <span class="topbar-role-badge">
-                    <i class="fas fa-shield-alt" style="font-size:10px; margin-right:4px;"></i>
-                    {{ ucfirst(auth()->user()?->role) }}
-                </span>
             </div>
         </header>
 

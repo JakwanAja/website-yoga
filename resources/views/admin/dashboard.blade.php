@@ -322,10 +322,10 @@
             <div class="stat-label">Kelas Aktif</div>
         </div>
         <div class="stat-card c3">
-            <span class="stat-trend down"><i class="fas fa-arrow-down"></i> 2%</span>
-            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 4%</span>
+            <div class="stat-icon"><i class="fas fa-user-check"></i></div>
             <div class="stat-value">—</div>
-            <div class="stat-label">Total Member</div>
+            <div class="stat-label">Terverifikasi Hari Ini</div>
         </div>
         <div class="stat-card c4">
             <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 8%</span>
@@ -382,11 +382,11 @@
                     </div>
                     Atur Jadwal Kelas
                 </a>
-                <a href="{{ route('admin.user') }}" class="quick-action-btn">
+                <a href="{{ route('admin.verifikasi') }}" class="quick-action-btn">
                     <div class="qa-icon" style="background:rgba(122,158,181,0.12); color:var(--info);">
-                        <i class="fas fa-user-plus"></i>
+                        <i class="fas fa-user-check"></i>
                     </div>
-                    Kelola Member
+                    Verifikasi Kehadiran
                 </a>
                 <a href="{{ route('home') }}" class="quick-action-btn" target="_blank">
                     <div class="qa-icon" style="background:rgba(201,169,110,0.12); color:var(--warning);">
@@ -451,6 +451,47 @@
             <div class="chart-bars" id="chartBars"></div>
         </div>
     </div>
+
+    {{-- Super Admin Panel (KF09, KF10, KF11) — hanya tampil untuk superadmin --}}
+    @if(auth()->user()?->role === 'superadmin')
+    <div class="superadmin-panel" style="margin-top: 28px;">
+        <h3>
+            <i class="fas fa-crown"></i>
+            Panel Super Admin
+        </h3>
+        <div class="sa-grid">
+            {{-- KF09: Kelola akun admin --}}
+            <a href="#" class="sa-card" style="text-decoration:none;">
+                <div class="sa-label">KF09 · Akun Admin</div>
+                <div class="sa-val">—</div>
+                <div class="sa-sub">Total admin terdaftar</div>
+                <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">
+                    <i class="fas fa-user-shield" style="margin-right:6px;"></i>Kelola Akun Admin →
+                </div>
+            </a>
+
+            {{-- KF10: Seluruh data booking --}}
+            <a href="{{ route('admin.booking') }}" class="sa-card" style="text-decoration:none;">
+                <div class="sa-label">KF10 · Seluruh Booking</div>
+                <div class="sa-val">—</div>
+                <div class="sa-sub">Total booking semua waktu</div>
+                <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">
+                    <i class="fas fa-calendar-check" style="margin-right:6px;"></i>Lihat Semua Data →
+                </div>
+            </a>
+
+            {{-- KF11: Laporan booking --}}
+            <a href="#" class="sa-card" style="text-decoration:none;">
+                <div class="sa-label">KF11 · Laporan Booking</div>
+                <div class="sa-val">—</div>
+                <div class="sa-sub">Booking bulan ini</div>
+                <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">
+                    <i class="fas fa-chart-line" style="margin-right:6px;"></i>Lihat Laporan →
+                </div>
+            </a>
+        </div>
+    </div>
+    @endif
 
 @endsection
 

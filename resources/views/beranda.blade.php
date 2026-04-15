@@ -3,381 +3,7 @@
 @section('title', 'Beranda - Asha Studio')
 
 @section('styles')
-<style>
-    /* ========== HERO SECTION ========== */
-    .hero {
-        display: flex;
-        min-height: 100vh;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-left {
-        width: 50%;
-        padding: 80px 80px 80px 100px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        animation: fadeInLeft 1s ease;
-    }
-
-    .hero-title {
-        font-family: 'Lavishly Yours', cursive;
-        font-size: 80px;
-        color: var(--dark);
-        margin-bottom: 20px;
-        line-height: 1;
-    }
-
-    .hero-subtitle {
-        font-size: 32px;
-        color: var(--dark);
-        line-height: 1.4;
-        margin-bottom: 40px;
-        font-weight: 300;
-    }
-
-    .hero-description {
-        font-size: 16px;
-        color: #7a5a5a;
-        line-height: 1.8;
-        margin-bottom: 50px;
-        max-width: 500px;
-    }
-
-    .hero-buttons {
-        display: flex;
-        gap: 20px;
-    }
-
-    .btn-outline {
-        background: transparent;
-        color: var(--dark);
-        border: 2px solid var(--primary);
-    }
-
-    .btn-outline:hover {
-        background: var(--primary);
-        color: white;
-        transform: translateY(-2px);
-    }
-
-    .hero-right {
-        width: 50%;
-        position: relative;
-        overflow: hidden;
-        animation: fadeInRight 1s ease;
-    }
-
-    .hero-right img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .hero-right:hover img {
-        transform: scale(1.05);
-    }
-
-    /* ========== ABOUT SECTION ========== */
-    .about-section {
-        display: flex;
-        min-height: 100vh;
-        background: var(--secondary);
-    }
-
-    .about-left {
-        width: 50%;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .about-left img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .about-left:hover img {
-        transform: scale(1.05);
-    }
-
-    .about-right {
-        width: 50%;
-        padding: 100px 80px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .section-tag {
-        font-size: 14px;
-        color: var(--primary);
-        letter-spacing: 3px;
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-
-    .about-title {
-        font-family: 'Lavishly Yours', cursive;
-        font-size: 64px;
-        color: var(--dark);
-        margin-bottom: 30px;
-        line-height: 1;
-    }
-
-    .about-subtitle {
-        font-size: 28px;
-        color: var(--dark);
-        margin-bottom: 30px;
-        font-weight: 400;
-    }
-
-    .about-text {
-        font-size: 16px;
-        color: #7a5a5a;
-        line-height: 1.9;
-        margin-bottom: 30px;
-        max-width: 550px;
-    }
-
-    .about-location {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 15px;
-        color: var(--dark);
-        margin-top: 20px;
-    }
-
-    .about-location i {
-        color: var(--primary);
-        font-size: 18px;
-    }
-
-    /* ========== CLASS SECTION ========== */
-    .class-section {
-        padding: 100px 80px;
-        background: var(--light);
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 80px;
-    }
-
-    .section-header .section-tag {
-        display: block;
-        margin: 0 auto 20px;
-    }
-
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 48px;
-        color: var(--dark);
-        margin-bottom: 20px;
-    }
-
-    .class-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .class-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .class-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-    }
-
-    .class-image {
-        width: 100%;
-        height: 280px;
-        overflow: hidden;
-    }
-
-    .class-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .class-card:hover .class-image img {
-        transform: scale(1.1);
-    }
-
-    .class-content {
-        padding: 30px;
-    }
-
-    .class-content h3 {
-        font-size: 24px;
-        color: var(--dark);
-        margin-bottom: 15px;
-        font-family: 'Playfair Display', serif;
-    }
-
-    .class-content p {
-        font-size: 14px;
-        color: #7a5a5a;
-        line-height: 1.8;
-        margin-bottom: 25px;
-    }
-
-    .class-btn {
-        width: 100%;
-        padding: 14px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .class-btn:hover {
-        background: #8f6a62;
-        transform: translateY(-2px);
-    }
-
-    /* ========== SCHEDULE SECTION ========== */
-    .schedule-section {
-        padding: 100px 80px;
-        background: var(--secondary);
-    }
-
-    .schedule-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 25px;
-        overflow: hidden;
-        box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-    }
-
-    .schedule-table {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .schedule-day {
-        padding: 30px 20px;
-        text-align: center;
-        background: var(--primary);
-        color: white;
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        border-right: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .schedule-day:last-child {
-        border-right: none;
-    }
-
-    .schedule-content {
-        padding: 35px 25px;
-        font-size: 14px;
-        line-height: 2.2;
-        color: var(--dark);
-        border-right: 1px solid #e8e8e8;
-        border-top: 1px solid #e8e8e8;
-        background: var(--light);
-    }
-
-    .schedule-content:last-child {
-        border-right: none;
-    }
-
-    .schedule-item {
-        margin-bottom: 10px;
-        padding: 8px 12px;
-        background: white;
-        border-radius: 8px;
-        border-left: 3px solid var(--primary);
-        transition: all 0.3s ease;
-    }
-
-    .schedule-item:hover {
-        transform: translateX(5px);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    /* ========== ANIMATIONS ========== */
-    @keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes fadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 768px) {
-        .hero, .about-section {
-            flex-direction: column;
-        }
-
-        .hero-left, .hero-right,
-        .about-left, .about-right {
-            width: 100%;
-        }
-
-        .hero-left, .about-right {
-            padding: 60px 30px;
-        }
-
-        .hero-title {
-            font-size: 50px;
-        }
-
-        .hero-subtitle {
-            font-size: 24px;
-        }
-
-        .class-grid {
-            grid-template-columns: 1fr;
-            padding: 0 30px;
-        }
-
-        .schedule-table {
-            grid-template-columns: 1fr;
-        }
-
-        .class-section, .schedule-section {
-            padding: 60px 30px;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/frontend.css') }}">
 @endsection
 
 @section('content')
@@ -437,74 +63,160 @@
 </section>
 
 <!-- ========== CLASS SECTION ========== -->
+
+{{-- ===== DATA DUMMY KELAS (sinkron dengan kelas.blade.php) ===== --}}
+@php
+$kelasList = [
+    [
+        'id'             => 1,
+        'nama_kelas'     => 'Beginner Yoga',
+        'deskripsi'      => 'Kelas yoga dasar yang dirancang khusus untuk pemula. Kamu akan belajar teknik pernapasan, gerakan dasar asana, dan melatih keseimbangan tubuh secara perlahan dan menyenangkan.',
+        'instruktur'     => 'Sari Dewi, S.Pd.',
+        'kuota_maksimal' => 12,
+        'kuota_sisa'     => 4,
+        'harga'          => 150000,
+        'kategori'       => 'yoga',
+        'banner_class'   => 'yoga',
+    ],
+    [
+        'id'             => 2,
+        'nama_kelas'     => 'Pilates Core Strength',
+        'deskripsi'      => 'Kelas pilates intensif yang berfokus pada penguatan otot inti (core). Cocok untuk kamu yang ingin memperbaiki postur, mengurangi nyeri punggung, dan meningkatkan stabilitas tubuh.',
+        'instruktur'     => 'Budi Santoso, S.Or.',
+        'kuota_maksimal' => 10,
+        'kuota_sisa'     => 0,
+        'harga'          => 200000,
+        'kategori'       => 'pilates',
+        'banner_class'   => 'pilates',
+    ],
+    [
+        'id'             => 3,
+        'nama_kelas'     => 'Yoga Relax & Stretch',
+        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
+        'instruktur'     => 'Anita Pratiwi, M.Kes.',
+        'kuota_maksimal' => 15,
+        'kuota_sisa'     => 8,
+        'harga'          => 175000,
+        'kategori'       => 'relax',
+        'banner_class'   => 'relax',
+    ],
+    [
+        'id'             => 4,
+        'nama_kelas'     => 'Advanced Vinyasa Yoga',
+        'deskripsi'      => 'Kelas vinyasa tingkat lanjut dengan rangkaian gerakan yang mengalir, dinamis, dan menantang. Disarankan untuk peserta yang sudah menguasai dasar-dasar yoga minimal 6 bulan.',
+        'instruktur'     => 'Sari Dewi, S.Pd.',
+        'kuota_maksimal' => 8,
+        'kuota_sisa'     => 2,
+        'harga'          => 250000,
+        'kategori'       => 'advanced',
+        'banner_class'   => 'advanced',
+    ],
+    [
+        'id'             => 5,
+        'nama_kelas'     => 'Mat Pilates',
+        'deskripsi'      => 'Kelas pilates menggunakan matras dengan latihan yang terstruktur dan aman. Sangat cocok untuk pemula yang ingin mencoba pilates atau mereka yang sedang dalam proses pemulihan cedera ringan.',
+        'instruktur'     => 'Budi Santoso, S.Or.',
+        'kuota_maksimal' => 12,
+        'kuota_sisa'     => 6,
+        'harga'          => 175000,
+        'kategori'       => 'pilates',
+        'banner_class'   => 'pilates',
+    ],
+    [
+        'id'             => 6,
+        'nama_kelas'     => 'Meditation & Breathwork',
+        'deskripsi'      => 'Sesi meditasi terstruktur dan latihan pernapasan (pranayama) yang mendalam. Dirancang untuk membantu pikiran lebih fokus, tenang, dan meningkatkan kesejahteraan mental secara keseluruhan.',
+        'instruktur'     => 'Anita Pratiwi, M.Kes.',
+        'kuota_maksimal' => 20,
+        'kuota_sisa'     => 11,
+        'harga'          => 125000,
+        'kategori'       => 'relax',
+        'banner_class'   => 'relax',
+    ],
+];
+
+$kategoriLabel = [
+    'yoga'     => 'Yoga',
+    'pilates'  => 'Pilates',
+    'relax'    => 'Relax & Meditasi',
+    'advanced' => 'Advanced',
+];
+@endphp
+
 <section id="class" class="class-section">
     <div class="section-header">
         <span class="section-tag">KELAS KAMI</span>
         <h2 class="section-title">Pilih Kelas Favorit Anda</h2>
     </div>
     <div class="class-grid">
-        
-        {{-- NANTI BAGIAN INI BISA DIGANTI DENGAN DATA DARI DATABASE --}}
-        {{-- @foreach($classes as $class) --}}
-        
-        <!-- Card 1 -->
-        <div class="class-card" onclick="openBooking('Beginner Yoga')">
-            <div class="class-image">
-                <img src="{{ asset('images/yoga1.jpeg') }}" alt="Beginner Yoga">
-                {{-- Atau dari database: <img src="{{ asset('storage/' . $class->image) }}" alt="{{ $class->name }}"> --}}
-            </div>
-            <div class="class-content">
-                <h3>Beginner Yoga</h3>
-                {{-- Atau dari database: <h3>{{ $class->name }}</h3> --}}
-                <p>
-                    Kelas yoga untuk pemula yang ingin mengenal dasar-dasar yoga
-                    seperti teknik pernapasan, peregangan tubuh, dan keseimbangan.
-                    Cocok untuk semua level kebugaran.
-                </p>
-                {{-- Atau dari database: <p>{{ $class->description }}</p> --}}
-                <button class="class-btn">
-                    <i class="fas fa-calendar-plus"></i> Booking Kelas
-                </button>
-            </div>
-        </div>
 
-        <!-- Card 2 -->
-        <div class="class-card" onclick="openBooking('Pilates Core Strength')">
-            <div class="class-image">
-                <img src="{{ asset('images/yoga2.jpeg') }}" alt="Pilates Core">
-            </div>
-            <div class="class-content">
-                <h3>Pilates Core Strength</h3>
-                <p>
-                    Kelas pilates yang berfokus pada penguatan otot inti (core)
-                    untuk meningkatkan stabilitas tubuh dan memperbaiki postur.
-                    Tingkatkan kekuatan inti Anda dengan efektif.
-                </p>
-                <button class="class-btn">
-                    <i class="fas fa-calendar-plus"></i> Booking Kelas
-                </button>
-            </div>
-        </div>
+        {{-- NANTI BISA DIGANTI DENGAN DATA DARI DATABASE --}}
+        {{-- @foreach($kelasList as $kelas) --}}
 
-        <!-- Card 3 -->
-        <div class="class-card" onclick="openBooking('Yoga Relax')">
-            <div class="class-image">
-                <img src="{{ asset('images/yoga3.jpeg') }}" alt="Yoga Relax">
+        @foreach ($kelasList as $kelas)
+        <div class="class-card" @if($kelas['kuota_sisa'] > 0) onclick="openBooking('{{ addslashes($kelas['nama_kelas']) }}')" @endif>
+
+            {{-- Banner warna kategori (menggunakan class dari frontend.css seperti di kelas.blade.php) --}}
+            <div class="class-image kelas-banner {{ $kelas['banner_class'] }}">
+                {{-- Jika sudah ada gambar per kelas, ganti dengan:
+                <img src="{{ asset('storage/' . $kelas['gambar']) }}" alt="{{ $kelas['nama_kelas'] }}"> --}}
             </div>
+
             <div class="class-content">
-                <h3>Yoga Relax & Stretch</h3>
-                <p>
-                    Kelas yoga yang berfokus pada relaksasi tubuh dan pikiran
-                    melalui gerakan lembut dan teknik pernapasan.
-                    Sempurna untuk menghilangkan stress.
-                </p>
-                <button class="class-btn">
-                    <i class="fas fa-calendar-plus"></i> Booking Kelas
-                </button>
+                {{-- Badge kategori --}}
+                <span class="kelas-badge">{{ $kategoriLabel[$kelas['kategori']] ?? $kelas['kategori'] }}</span>
+
+                <h3>{{ $kelas['nama_kelas'] }}</h3>
+                <p>{{ $kelas['deskripsi'] }}</p>
+
+                {{-- Meta info: instruktur & kuota --}}
+                <div class="class-meta-row">
+                    <span class="class-meta-item">
+                        <i class="fas fa-user-tie"></i> {{ $kelas['instruktur'] }}
+                    </span>
+                    <span class="class-meta-item">
+                        <i class="fas fa-users"></i>
+                        {{ $kelas['kuota_sisa'] }}/{{ $kelas['kuota_maksimal'] }} kursi
+                        &nbsp;
+                        @if ($kelas['kuota_sisa'] === 0)
+                            <span class="kuota-badge full">Penuh</span>
+                        @elseif ($kelas['kuota_sisa'] <= 3)
+                            <span class="kuota-badge almost">Hampir Penuh</span>
+                        @else
+                            <span class="kuota-badge available">Tersedia</span>
+                        @endif
+                    </span>
+                </div>
+
+                {{-- Harga --}}
+                <div class="class-price-row">
+                    <span class="class-price-label">Harga per sesi</span>
+                    <span class="class-price-value">Rp {{ number_format($kelas['harga'], 0, ',', '.') }}</span>
+                </div>
+
+                {{-- Tombol booking --}}
+                @if ($kelas['kuota_sisa'] === 0)
+                    <button class="class-btn class-btn-full" disabled>
+                        <i class="fas fa-ban"></i> Kelas Penuh
+                    </button>
+                @else
+                    @php $namaKelas = addslashes($kelas['nama_kelas']); @endphp
+                    <button class="class-btn class-btn-book" onclick="openBooking('{{ $namaKelas }}')">
+                        <i class="fas fa-calendar-plus"></i> Booking Kelas
+                    </button>
+                @endif
             </div>
         </div>
+        @endforeach
 
         {{-- @endforeach --}}
+    </div>
+
+    {{-- Tombol lihat semua kelas --}}
+    <div style="text-align:center; margin-top: 50px;">
+        <a href="{{ route('kelas') }}" class="btn btn-outline">
+            <i class="fas fa-th-large"></i> Lihat Semua Kelas
+        </a>
     </div>
 </section>
 
