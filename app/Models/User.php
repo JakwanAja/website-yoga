@@ -11,9 +11,9 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'email',
+        'username',
         'password',
-        'role',       // ← tambahkan ini
+        'role',
     ];
 
     protected $hidden = [
@@ -21,10 +21,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Helper method untuk cek role
+    // ── Helper: cek role ──────────────────────────────────────
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return in_array($this->role, ['admin', 'superadmin']);
     }
 
     public function isSuperAdmin(): bool

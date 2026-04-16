@@ -8,64 +8,69 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    // Dipanggil oleh route 'login' — wajib ada agar middleware auth
-    // tahu ke mana redirect jika user belum login
+    /**
+     * Redirect ke dashboard jika sudah login,
+     * atau tampilkan halaman publik (beranda) dengan modal login terbuka.
+     */
     public function redirectIfAuthenticated()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            $role = Auth::user()->role;
+
+            if (in_array($role, ['admin', 'superadmin'])) {
+                return redirect()->route('admin.dashboard');
+            }
         }
 
+        // Belum login → kembali ke beranda (modal login sudah ada di sana)
         return redirect()->route('home');
     }
 
-    // Proses login dari modal di beranda
+    /**
+     * Proses login: autentikasi via username & password,
+     * lalu redirect ke dashboard sesuai role.
+     */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required'],
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
+        $credentials = $request->only('username', 'password');
+
+        // Gunakan username (bukan email) sebagai identifier
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             $role = Auth::user()->role;
 
-            if (!in_array($role, ['admin', 'superadmin'])) {
-                Auth::logout();
-                return redirect()->route('home')->withErrors([
-                    'email' => 'Akun Anda tidak memiliki akses ke sistem ini.',
-                ]);
+            if (in_array($role, ['admin', 'superadmin'])) {
+                return redirect()->route('admin.dashboard')
+                    ->with('success', 'Selamat datang, ' . Auth::user()->name . '!');
             }
 
-            return redirect()->intended(route('admin.dashboard'))
-                ->with('success', 'Selamat datang, ' . Auth::user()->name . '!');
+            // Role tidak dikenal → logout & tolak
+            Auth::logout();
+            return redirect()->route('home')
+                ->with('error', 'Akses ditolak. Role tidak dikenali.');
         }
 
-        // Gagal login → kembali ke beranda agar modal bisa terbuka kembali
-        return redirect()->route('home')->withErrors([
-            'email' => 'Email atau password yang Anda masukkan salah.',
-        ])->onlyInput('email');
+        return redirect()->back()
+            ->withErrors(['login' => 'Username atau password salah.'])
+            ->withInput($request->only('username'));
     }
 
-    // Dashboard — dipisah dari closure di route agar bisa inject data nanti
-    public function dashboard()
-    {
-        // Siap dikembangkan:
-        // $totalBooking  = Booking::count();
-        // $totalKelas    = Kelas::where('aktif', true)->count();
-        // $totalMember   = User::where('role', 'member')->count();
-        // $jadwalHariIni = Jadwal::whereDate('tanggal', today())->count();
-        // $recentBookings = Booking::latest()->take(5)->get();
-
-        return view('admin.dashboard');
-    }
-
-    // Logout
+    /**
+     * Logout dan redirect ke beranda.
+     */
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

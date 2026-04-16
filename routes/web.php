@@ -9,21 +9,34 @@ Route::view('/', 'beranda')->name('home');
 Route::view('/kelas', 'kelas')->name('kelas');
 
 // ── Auth ────────────────────────────────────────────────────
-Route::get('/redirect-login', [LoginController::class, 'redirectIfAuthenticated'])->name('login');
+Route::get('/login', [LoginController::class, 'redirectIfAuthenticated'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-// ── Admin (publik, tanpa auth) ───────────────────────────────
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-// ── Admin (butuh auth) ───────────────────────────────────────
+// ── Admin (butuh auth + role admin/superadmin) ───────────────
 Route::prefix('admin')
     ->middleware(['auth', 'role:admin,superadmin'])
     ->group(function () {
-        Route::get('/jadwal',  fn() => view('admin.jadwal'))->name('admin.jadwal');
-        Route::get('/verifikasi',    fn() => view('admin.verifikasi'))->name('admin.verifikasi');
-        Route::get('/booking', fn() => view('admin.booking'))->name('admin.booking');
+
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        // Halaman yang bisa diakses admin & superadmin
+        Route::get('/jadwal',    fn() => view('admin.jadwal'))->name('admin.jadwal');
+        Route::get('/verifikasi', fn() => view('admin.verifikasi'))->name('admin.verifikasi');
+        Route::get('/booking',   fn() => view('admin.booking'))->name('admin.booking');
+    });
+
+// ── Super Admin only ─────────────────────────────────────────
+Route::prefix('admin')
+    ->middleware(['auth', 'role:superadmin'])
+    ->group(function () {
+
+        // Kelola akun admin (tambah admin baru, dll.)
+        Route::get('/kelola-admin', fn() => view('admin.kelola-admin'))->name('admin.kelola-admin');
+        Route::get('/laporan',      fn() => view('admin.laporan'))->name('admin.laporan');
+        Route::get('/pengaturan',   fn() => view('admin.pengaturan'))->name('admin.pengaturan');
     });

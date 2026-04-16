@@ -14,65 +14,8 @@
 
     <!-- App CSS (dipindah ke public/css/app.css) -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    @yield('styles')
-    <style>
-        /* Booking modal: baris jadwal + jumlah peserta sejajar */
-        .form-row-inline {
-            display: flex;
-            gap: 16px;
-        }
-        .form-row-inline .form-group {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* Qty stepper */
-        .qty-input-wrapper {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 44px;
-        }
-        .qty-btn {
-            width: 40px;
-            height: 44px;
-            background: #f7f7f5;
-            border: none;
-            color: #555;
-            font-size: 12px;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: background 0.15s;
-        }
-        .qty-btn:hover { background: #eeede9; }
-        .qty-input {
-            flex: 1;
-            text-align: center;
-            border: none !important;
-            border-left: 1px solid #ddd !important;
-            border-right: 1px solid #ddd !important;
-            border-radius: 0 !important;
-            height: 44px;
-            font-weight: 500;
-            padding: 0 !important;
-        }
-        .qty-input:focus { outline: none; box-shadow: none; }
-
-        /* Hint text di bawah field */
-        .form-hint {
-            font-size: 11px;
-            color: #999;
-            margin-top: 4px;
-            display: block;
-        }
-
-        @media (max-width: 480px) {
-            .form-row-inline { flex-direction: column; gap: 0; }
-        }
-    </style>
+    @yield('styles')  {{-- ← tambahkan ini --}}
+   
 </head>
 <body>
 
@@ -215,7 +158,6 @@
                     <li><a href="{{ route('home') }}#about">About Us</a></li>
                     <li><a href="{{ route('kelas') }}#class">Classes</a></li>
                     <li><a href="{{ route('home') }}#schedule">Schedule</a></li>
-                    {{-- Login dipindah ke sini, tersembunyi tapi tetap bisa diakses admin --}}
                     <li><a href="#" onclick="openLogin(); return false;">Login</a></li>
                 </ul>
             </div>

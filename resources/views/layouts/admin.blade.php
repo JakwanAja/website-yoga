@@ -414,7 +414,6 @@
             .topbar { padding: 0 20px; }
         }
 
-        @yield('styles')
     </style>
 
     @stack('styles')
