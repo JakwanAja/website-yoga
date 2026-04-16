@@ -382,12 +382,7 @@
                     </div>
                     Atur Jadwal Kelas
                 </a>
-                <a href="{{ route('admin.verifikasi') }}" class="quick-action-btn">
-                    <div class="qa-icon" style="background:rgba(122,158,181,0.12); color:var(--info);">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    Verifikasi Kehadiran
-                </a>
+
                 <a href="{{ route('home') }}" class="quick-action-btn" target="_blank">
                     <div class="qa-icon" style="background:rgba(201,169,110,0.12); color:var(--warning);">
                         <i class="fas fa-external-link-alt"></i>
@@ -442,16 +437,6 @@
             </div>
         </div>
 
-        {{-- Bar Chart --}}
-        <div class="panel">
-            <div class="panel-header">
-                <span class="panel-title">Booking Mingguan</span>
-                <span style="font-size:12px; color:var(--text-muted);">7 hari terakhir</span>
-            </div>
-            <div class="chart-bars" id="chartBars"></div>
-        </div>
-    </div>
-
     {{-- Super Admin Panel (KF09, KF10, KF11) — hanya tampil untuk superadmin --}}
     @if(auth()->user()?->role === 'superadmin')
     <div class="superadmin-panel" style="margin-top: 28px;">
@@ -462,7 +447,7 @@
         <div class="sa-grid">
             {{-- KF09: Kelola akun admin --}}
             <a href="#" class="sa-card" style="text-decoration:none;">
-                <div class="sa-label">KF09 · Akun Admin</div>
+                <div class="sa-label">Akun Admin</div>
                 <div class="sa-val">—</div>
                 <div class="sa-sub">Total admin terdaftar</div>
                 <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">
@@ -472,7 +457,7 @@
 
             {{-- KF10: Seluruh data booking --}}
             <a href="{{ route('admin.booking') }}" class="sa-card" style="text-decoration:none;">
-                <div class="sa-label">KF10 · Seluruh Booking</div>
+                <div class="sa-label">Seluruh Booking</div>
                 <div class="sa-val">—</div>
                 <div class="sa-sub">Total booking semua waktu</div>
                 <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">
@@ -482,7 +467,7 @@
 
             {{-- KF11: Laporan booking --}}
             <a href="#" class="sa-card" style="text-decoration:none;">
-                <div class="sa-label">KF11 · Laporan Booking</div>
+                <div class="sa-label">Laporan Booking</div>
                 <div class="sa-val">—</div>
                 <div class="sa-sub">Booking bulan ini</div>
                 <div style="margin-top:14px; font-size:12px; color:rgba(196,154,154,0.7);">

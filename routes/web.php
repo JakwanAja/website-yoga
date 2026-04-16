@@ -26,11 +26,11 @@ Route::prefix('admin')
 
         // Halaman yang bisa diakses admin & superadmin
         Route::get('/jadwal',    fn() => view('admin.jadwal'))->name('admin.jadwal');
-        Route::get('/verifikasi', fn() => view('admin.verifikasi'))->name('admin.verifikasi');
+        Route::get('/kelas',    fn() => view('admin.kelas'))->name('admin.kelas');
+        //Route::get('/verifikasi', fn() => view('admin.verifikasi'))->name('admin.verifikasi');
         Route::get('/booking',   fn() => view('admin.booking'))->name('admin.booking');
     });
 
-// ── Super Admin only ─────────────────────────────────────────
 Route::prefix('admin')
     ->middleware(['auth', 'role:superadmin'])
     ->group(function () {

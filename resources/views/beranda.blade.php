@@ -57,7 +57,7 @@
         </p>
         <div class="about-location">
             <i class="fas fa-map-marker-alt"></i>
-            <span>Surakarta, Jawa Tengah</span>
+            <span>Jl. Bonokeling No.1, Demangan, Kec. Taman, Kota Madiun, Jawa Timur 63136</span>
         </div>
     </div>
 </section>

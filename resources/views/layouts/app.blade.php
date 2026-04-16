@@ -67,6 +67,64 @@
                 <button type="submit" class="btn btn-primary btn-submit">
                     <i class="fas fa-sign-in-alt"></i> LOGIN
                 </button>
+
+                <div style="text-align:center; margin-top: 14px;">
+                    <a href="#" onclick="openForgotPassword(); return false;"
+                       style="font-size: 0.85rem; color: var(--primary); text-decoration: none; opacity: 0.8;">
+                        <i class="fas fa-key"></i> Lupa Password?
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========== FORGOT PASSWORD MODAL ========== -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content login-modal-content">
+            <button class="modal-close" onclick="closeForgotPassword()">&times;</button>
+
+            <div class="logo-circle">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
+            </div>
+
+            <h2 class="modal-title">Reset Password</h2>
+            <p class="modal-subtitle" style="margin-bottom: 20px;">
+                Masukkan email akun Anda. Kami akan mengirimkan link untuk mereset password.
+            </p>
+
+            {{-- Alert sukses (tersembunyi secara default) --}}
+            <div id="forgotSuccessAlert" style="
+                display: none;
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+                border-radius: 8px;
+                padding: 12px 16px;
+                margin-bottom: 16px;
+                font-size: 0.875rem;
+                text-align: center;
+            ">
+                <i class="fas fa-check-circle"></i>
+                Link reset password telah dikirim ke email Anda!
+            </div>
+
+            <form onsubmit="return handleForgotPassword(event)">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="forgotEmailInput" class="form-control"
+                           placeholder="Masukkan email Anda" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-submit">
+                    <i class="fas fa-paper-plane"></i> Kirim Link Reset
+                </button>
+
+                <div style="text-align:center; margin-top: 14px;">
+                    <a href="#" onclick="backToLogin(); return false;"
+                       style="font-size: 0.85rem; color: var(--primary); text-decoration: none; opacity: 0.8;">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Login
+                    </a>
+                </div>
             </form>
         </div>
     </div>
@@ -177,7 +235,7 @@
                 <ul>
                     <li><i class="fas fa-phone"></i> +62 812-3456-7890</li>
                     <li><i class="fas fa-envelope"></i> info@ashastudio.com</li>
-                    <li><i class="fas fa-map-marker-alt"></i> Surakarta, Jawa Tengah</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Bonokeling No.1, Demangan, Kec. Taman, Kota Madiun, Jawa Timur 63136</li>
                 </ul>
             </div>
         </div>
@@ -286,13 +344,41 @@
             document.body.style.overflow = 'auto';
         }
 
+        // Forgot Password Modal
+        function openForgotPassword() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('forgotPasswordModal').classList.add('active');
+            document.getElementById('forgotSuccessAlert').style.display = 'none';
+            document.getElementById('forgotEmailInput').value = '';
+        }
+
+        function closeForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function backToLogin() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            // Tampilkan alert sukses (UI only, belum ada logika backend)
+            document.getElementById('forgotSuccessAlert').style.display = 'block';
+            document.getElementById('forgotEmailInput').value = '';
+            return false;
+        }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const bookingModal = document.getElementById('bookingModal');
-            const loginModal   = document.getElementById('loginModal');
+            const bookingModal       = document.getElementById('bookingModal');
+            const loginModal         = document.getElementById('loginModal');
+            const forgotPasswordModal = document.getElementById('forgotPasswordModal');
 
-            if (event.target == bookingModal) closeBooking();
-            if (event.target == loginModal)   closeLogin();
+            if (event.target == bookingModal)        closeBooking();
+            if (event.target == loginModal)          closeLogin();
+            if (event.target == forgotPasswordModal) closeForgotPassword();
         }
     </script>
 

@@ -440,15 +440,14 @@
             <a href="{{ route('admin.booking') }}"
                class="nav-item {{ request()->routeIs('admin.booking') ? 'active' : '' }}">
                 <i class="fas fa-calendar-check"></i> Booking
-                {{-- <span class="nav-badge">3</span> --}}
             </a>
+            <a href="{{ route('admin.kelas') }}"
+                class="nav-item {{ request()->routeIs('admin.kelas*') ? 'active' : '' }}">
+                 <i class="fas fa-layer-group"></i> Kelas
+             </a>
             <a href="{{ route('admin.jadwal') }}"
                class="nav-item {{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i> Jadwal
-            </a>
-            <a href="{{ route('admin.verifikasi') }}"
-               class="nav-item {{ request()->routeIs('admin.verifikasi') ? 'active' : '' }}">
-                <i class="fas fa-user-check"></i> Verifikasi
             </a>
 
             @if(auth()->user()?->role === 'superadmin')
