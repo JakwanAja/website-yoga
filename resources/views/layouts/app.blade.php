@@ -170,26 +170,11 @@
                         <label>Pilih Jadwal</label>
                         <select name="jadwal" class="form-control" onchange="updatePreview(this)" required>
                             <option value="">-- Pilih Jadwal --</option>
-                            <option value="Senin, 08.00 WIB">Senin, 08.00 WIB</option>
-                            <option value="Rabu, 10.00 WIB">Rabu, 10.00 WIB</option>
-                            <option value="Jumat, 16.00 WIB">Jumat, 16.00 WIB</option>
-                            <option value="Minggu, 10.00 WIB">Minggu, 10.00 WIB</option>
+                            <option value="Senin, 08.00 WIB">Senin</option>
+                            <option value="Rabu, 10.00 WIB">Rabu</option>
+                            <option value="Jumat, 16.00 WIB">Jumat</option>
+                            <option value="Minggu, 10.00 WIB">Minggu</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Jumlah Peserta</label>
-                        <div class="qty-input-wrapper">
-                            <button type="button" class="qty-btn" onclick="changeQty(-1)">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <input type="number" name="jumlah_peserta" id="jumlahPeserta"
-                                   class="form-control qty-input" value="1" min="1" max="5" readonly required>
-                            <button type="button" class="qty-btn" onclick="changeQty(1)">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                        <small class="form-hint">Maks. 5 orang per booking</small>
                     </div>
                 </div>
 
