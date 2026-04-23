@@ -136,16 +136,15 @@ $kelasList = [
 
              {{-- Gradient Banner --}}
             <div class="class-image" 
-                style="background: {{ $bg }}; display:flex; align-items:center; justify-content:center;">
-
+                data-bg="{{ $bg }}"
+                style="display:flex; align-items:center; justify-content:center;">
                 <span style="font-size:40px; color:white; font-weight:600;">
                     {{ $inisial }}
                 </span>
             </div>
-
             <div class="class-content">
 
-                <h3>{{ $kelas['nama_kelas'] }}</h3>
+            <h3>{{ $kelas['nama_kelas'] }}</h3>
                 <p>{{ $kelas['deskripsi'] }}</p>
 
                 {{-- Meta info: instruktur & kuota --}}
