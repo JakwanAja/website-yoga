@@ -50,7 +50,7 @@ class LoginController extends Controller
 
             if (in_array($role, ['admin', 'superadmin'])) {
                 return redirect()->route('admin.dashboard')
-                    ->with('success', 'Selamat datang, ' . Auth::user()->name . '!');
+                    ->with('success', 'Selamat datang, ' . Auth::user()->nama_user . '!');
             }
 
             // Role tidak dikenal → logout & tolak

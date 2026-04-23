@@ -12,15 +12,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- App CSS (dipindah ke public/css/app.css) -->
+    <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @yield('styles')  {{-- ← tambahkan ini --}}
+    @yield('styles')
    
 </head>
 <body>
 
     <!-- ========== NAVBAR ========== -->
-    {{-- Menu LOGIN dihapus dari navbar. Login hanya tersedia di footer. --}}
     <nav class="navbar">
         <a href="{{ route('home') }}" class="nav-logo">
             <img src="{{ asset('images/logo.jpeg') }}" alt="Asha Studio Logo">
@@ -53,10 +52,22 @@
             <p class="modal-subtitle">Silakan Login</p>
 
             <form action="{{ route('login.post') }}" method="POST">
-            @csrf
+                @csrf
+
+                {{-- Tampilkan error login --}}
+                @if ($errors->has('login'))
+                    <div style="background:#fee2e2; color:#991b1b; border:1px solid #fca5a5;
+                                border-radius:8px; padding:10px 14px; margin-bottom:14px;
+                                font-size:0.85rem; text-align:center;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ $errors->first('login') }}
+                    </div>
+                @endif
+
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                    <input type="text" name="username" class="form-control" placeholder="Username"
+                           value="{{ old('username') }}" required>
                 </div>
 
                 <div class="input-group">
@@ -78,7 +89,7 @@
         </div>
     </div>
 
-    <!-- ========== FORGOT PASSWORD MODAL ========== -->
+    <!-- FORGOT PASSWORD MODAL  
     <div id="forgotPasswordModal" class="modal">
         <div class="modal-content login-modal-content">
             <button class="modal-close" onclick="closeForgotPassword()">&times;</button>
@@ -92,7 +103,6 @@
                 Masukkan email akun Anda. Kami akan mengirimkan link untuk mereset password.
             </p>
 
-            {{-- Alert sukses (tersembunyi secara default) --}}
             <div id="forgotSuccessAlert" style="
                 display: none;
                 background: #d4edda;
@@ -127,7 +137,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <!-- ========== BOOKING MODAL ========== -->
     <div id="bookingModal" class="modal">
@@ -241,9 +251,15 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 Asha Studio. All Rights Reserved. Made with <i class="fas fa-heart" style="color: var(--primary);"></i></p>
+            <p>&copy; 2026 Asha Studio. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- ========== INJECT BLADE VARIABLE KE JS ========== -->
+    {{-- Dipisah di tag script sendiri agar tidak bentrok dengan validasi JS di VS Code --}}
+    <script>
+        var hasLoginError = "{{ $errors->has('login') ? '1' : '0' }}";
+    </script>
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
@@ -314,25 +330,6 @@
             }
         }
 
-        // Jumlah Peserta counter
-        function changeQty(delta) {
-            const input = document.getElementById('jumlahPeserta');
-            const current = parseInt(input.value) || 1;
-            const next = Math.min(5, Math.max(1, current + delta));
-            input.value = next;
-        }
-
-        function handleBooking(event) {
-            event.preventDefault();
-            const jumlah = document.getElementById('jumlahPeserta').value;
-            alert('Booking berhasil untuk ' + jumlah + ' peserta! Kami akan menghubungi Anda segera.');
-            closeBooking();
-            event.target.reset();
-            document.getElementById('jumlahPeserta').value = 1;
-            document.getElementById('schedulePreview').classList.remove('active');
-            return false;
-        }
-
         // Login Modal
         function openLogin() {
             document.getElementById('loginModal').classList.add('active');
@@ -342,14 +339,6 @@
         function closeLogin() {
             document.getElementById('loginModal').classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-
-        // Forgot Password Modal
-        function openForgotPassword() {
-            document.getElementById('loginModal').classList.remove('active');
-            document.getElementById('forgotPasswordModal').classList.add('active');
-            document.getElementById('forgotSuccessAlert').style.display = 'none';
-            document.getElementById('forgotEmailInput').value = '';
         }
 
         function closeForgotPassword() {
@@ -362,24 +351,21 @@
             document.getElementById('loginModal').classList.add('active');
         }
 
-        function handleForgotPassword(event) {
-            event.preventDefault();
-            // Tampilkan alert sukses (UI only, belum ada logika backend)
-            document.getElementById('forgotSuccessAlert').style.display = 'block';
-            document.getElementById('forgotEmailInput').value = '';
-            return false;
-        }
-
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const bookingModal       = document.getElementById('bookingModal');
-            const loginModal         = document.getElementById('loginModal');
+            const bookingModal        = document.getElementById('bookingModal');
+            const loginModal          = document.getElementById('loginModal');
             const forgotPasswordModal = document.getElementById('forgotPasswordModal');
 
-            if (event.target == bookingModal)        closeBooking();
-            if (event.target == loginModal)          closeLogin();
-            if (event.target == forgotPasswordModal) closeForgotPassword();
+            if (event.target == bookingModal)         closeBooking();
+            if (event.target == loginModal)           closeLogin();
+            if (event.target == forgotPasswordModal)  closeForgotPassword();
         }
+
+        // Auto-buka modal HANYA jika ada error login
+        document.addEventListener('DOMContentLoaded', function () {
+            if (hasLoginError === '1') openLogin();
+        });
     </script>
 
     @yield('scripts')
