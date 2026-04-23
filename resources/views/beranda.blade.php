@@ -21,9 +21,6 @@
             Bergabunglah dengan komunitas kami untuk merasakan transformasi holistik melalui praktik yoga dan pilates yang dipandu oleh instruktur berpengalaman.
         </p>
         <div class="hero-buttons">
-            <button class="btn btn-primary" onclick="openBooking('General Class')">
-                <i class="fas fa-calendar-check"></i> Booking Sekarang
-            </button>
             <a href="#schedule" class="btn btn-outline">
                 <i class="fas fa-clock"></i> Lihat Jadwal
             </a>
@@ -69,78 +66,43 @@
 $kelasList = [
     [
         'id'             => 1,
-        'nama_kelas'     => 'Beginner Yoga',
+        'nama_kelas'     => 'Hatha Yoga',
         'deskripsi'      => 'Kelas yoga dasar yang dirancang khusus untuk pemula. Kamu akan belajar teknik pernapasan, gerakan dasar asana, dan melatih keseimbangan tubuh secara perlahan dan menyenangkan.',
-        'instruktur'     => 'Sari Dewi, S.Pd.',
+        'instruktur'     => 'Bela',
         'kuota_maksimal' => 12,
         'kuota_sisa'     => 4,
         'harga'          => 150000,
-        'kategori'       => 'yoga',
-        'banner_class'   => 'yoga',
     ],
     [
         'id'             => 2,
-        'nama_kelas'     => 'Pilates Core Strength',
+        'nama_kelas'     => 'Vinyasa Yoga',
         'deskripsi'      => 'Kelas pilates intensif yang berfokus pada penguatan otot inti (core). Cocok untuk kamu yang ingin memperbaiki postur, mengurangi nyeri punggung, dan meningkatkan stabilitas tubuh.',
-        'instruktur'     => 'Budi Santoso, S.Or.',
+        'instruktur'     => 'Nelly',
         'kuota_maksimal' => 10,
-        'kuota_sisa'     => 0,
+        'kuota_sisa'     => 5,
         'harga'          => 200000,
-        'kategori'       => 'pilates',
-        'banner_class'   => 'pilates',
     ],
     [
         'id'             => 3,
-        'nama_kelas'     => 'Yoga Relax & Stretch',
+        'nama_kelas'     => 'Prenatal Yoga Regular',
         'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Anita Pratiwi, M.Kes.',
-        'kuota_maksimal' => 15,
+        'instruktur'     => 'Fadila',
+        'kuota_maksimal' => 10,
         'kuota_sisa'     => 8,
-        'harga'          => 175000,
-        'kategori'       => 'relax',
-        'banner_class'   => 'relax',
+        'harga'          => 250000,
     ],
+
     [
         'id'             => 4,
-        'nama_kelas'     => 'Advanced Vinyasa Yoga',
-        'deskripsi'      => 'Kelas vinyasa tingkat lanjut dengan rangkaian gerakan yang mengalir, dinamis, dan menantang. Disarankan untuk peserta yang sudah menguasai dasar-dasar yoga minimal 6 bulan.',
-        'instruktur'     => 'Sari Dewi, S.Pd.',
-        'kuota_maksimal' => 8,
+        'nama_kelas'     => 'Prenatal Yoga Regular',
+        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
+        'instruktur'     => 'Fadila',
+        'kuota_maksimal' => 5,
         'kuota_sisa'     => 2,
-        'harga'          => 250000,
-        'kategori'       => 'advanced',
-        'banner_class'   => 'advanced',
-    ],
-    [
-        'id'             => 5,
-        'nama_kelas'     => 'Mat Pilates',
-        'deskripsi'      => 'Kelas pilates menggunakan matras dengan latihan yang terstruktur dan aman. Sangat cocok untuk pemula yang ingin mencoba pilates atau mereka yang sedang dalam proses pemulihan cedera ringan.',
-        'instruktur'     => 'Budi Santoso, S.Or.',
-        'kuota_maksimal' => 12,
-        'kuota_sisa'     => 6,
-        'harga'          => 175000,
-        'kategori'       => 'pilates',
-        'banner_class'   => 'pilates',
-    ],
-    [
-        'id'             => 6,
-        'nama_kelas'     => 'Meditation & Breathwork',
-        'deskripsi'      => 'Sesi meditasi terstruktur dan latihan pernapasan (pranayama) yang mendalam. Dirancang untuk membantu pikiran lebih fokus, tenang, dan meningkatkan kesejahteraan mental secara keseluruhan.',
-        'instruktur'     => 'Anita Pratiwi, M.Kes.',
-        'kuota_maksimal' => 20,
-        'kuota_sisa'     => 11,
-        'harga'          => 125000,
-        'kategori'       => 'relax',
-        'banner_class'   => 'relax',
+        'harga'          => 300000,
     ],
 ];
 
-$kategoriLabel = [
-    'yoga'     => 'Yoga',
-    'pilates'  => 'Pilates',
-    'relax'    => 'Relax & Meditasi',
-    'advanced' => 'Advanced',
-];
 @endphp
 
 <section id="class" class="class-section">
@@ -154,17 +116,34 @@ $kategoriLabel = [
         {{-- @foreach($kelasList as $kelas) --}}
 
         @foreach ($kelasList as $kelas)
-        <div class="class-card" @if($kelas['kuota_sisa'] > 0) onclick="openBooking('{{ addslashes($kelas['nama_kelas']) }}')" @endif>
+        @php
+            $gradients = [
+                'linear-gradient(135deg, #667eea, #764ba2)',
+                'linear-gradient(135deg, #ff9a9e, #fad0c4)',
+                'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+                'linear-gradient(135deg, #f6d365, #fda085)'
+            ];
+            $bg = $gradients[$loop->index % count($gradients)];
 
-            {{-- Banner warna kategori (menggunakan class dari frontend.css seperti di kelas.blade.php) --}}
-            <div class="class-image kelas-banner {{ $kelas['banner_class'] }}">
-                {{-- Jika sudah ada gambar per kelas, ganti dengan:
-                <img src="{{ asset('storage/' . $kelas['gambar']) }}" alt="{{ $kelas['nama_kelas'] }}"> --}}
+            // Ambil huruf awal untuk tampilan
+            $inisial = strtoupper(substr($kelas['nama_kelas'], 0, 1));
+        @endphp
+
+        <div class="class-card" 
+            @if($kelas['kuota_sisa'] > 0) 
+                onclick="openBooking('{{ addslashes($kelas['nama_kelas']) }}')" 
+            @endif>
+
+             {{-- Gradient Banner --}}
+            <div class="class-image" 
+                style="background: {{ $bg }}; display:flex; align-items:center; justify-content:center;">
+
+                <span style="font-size:40px; color:white; font-weight:600;">
+                    {{ $inisial }}
+                </span>
             </div>
 
             <div class="class-content">
-                {{-- Badge kategori --}}
-                <span class="kelas-badge">{{ $kategoriLabel[$kelas['kategori']] ?? $kelas['kategori'] }}</span>
 
                 <h3>{{ $kelas['nama_kelas'] }}</h3>
                 <p>{{ $kelas['deskripsi'] }}</p>
@@ -230,8 +209,11 @@ $kategoriLabel = [
         <div class="schedule-table">
             <!-- Header -->
             <div class="schedule-day">SENIN</div>
+            <div class="schedule-day">SELASA</div>
             <div class="schedule-day">RABU</div>
+            <div class="schedule-day">KAMIS</div>
             <div class="schedule-day">JUMAT</div>
+            <div class="schedule-day">SABTU</div>
             <div class="schedule-day">MINGGU</div>
 
             <!-- Content -->
@@ -239,12 +221,9 @@ $kategoriLabel = [
             {{-- @foreach($schedules->groupBy('day') as $day => $daySchedules) --}}
             
             <div class="schedule-content">
-                <div class="schedule-item">08.00 - Beginner Yoga</div>
-                <div class="schedule-item">12.15 - Yoga Relax & Stretch</div>
-                <div class="schedule-item">16.30 - Pilates Core Strength</div>
-                <div class="schedule-item">18.45 - Beginner Yoga</div>
-                <div class="schedule-item">20.10 - Pilates Core Strength</div>
-                
+                <div class="schedule-item">10.00 - Vinyasa Flow</div>
+                <div class="schedule-item">16.30 - Hatha Flow</div>
+
                 {{-- Atau dari database:
                 @foreach($daySchedules as $schedule)
                     <div class="schedule-item">{{ $schedule->time }} - {{ $schedule->class_name }}</div>
@@ -253,27 +232,30 @@ $kategoriLabel = [
             </div>
 
             <div class="schedule-content">
-                <div class="schedule-item">10.00 - Pilates Core Strength</div>
-                <div class="schedule-item">15.15 - Beginner Yoga</div>
-                <div class="schedule-item">17.10 - Yoga Relax & Stretch</div>
-                <div class="schedule-item">19.25 - Pilates Core Strength</div>
-                <div class="schedule-item">21.00 - Beginner Yoga</div>
+                <div class="schedule-item">08.00 - Hatha Flow</div>
             </div>
 
             <div class="schedule-content">
-                <div class="schedule-item">08.00 - Yoga Relax & Stretch</div>
-                <div class="schedule-item">13.00 - Beginner Yoga</div>
-                <div class="schedule-item">16.30 - Pilates Core Strength</div>
-                <div class="schedule-item">18.45 - Beginner Yoga</div>
-                <div class="schedule-item">20.10 - Pilates Core Strength</div>
+                <div class="schedule-item">16.30 - Hatha Flow</div>
+                <div class="schedule-item">18.30 - Vinyasa Flow</div>
             </div>
 
             <div class="schedule-content">
-                <div class="schedule-item">10.00 - Beginner Yoga</div>
-                <div class="schedule-item">15.15 - Pilates Core Strength</div>
-                <div class="schedule-item">17.10 - Beginner Yoga</div>
-                <div class="schedule-item">19.25 - Yoga Relax & Stretch</div>
-                <div class="schedule-item">21.00 - Pilates Core Strength</div>
+                <div class="schedule-item">16.30 - Hatha Flow</div>
+            </div>
+
+            <div class="schedule-content">
+                <div class="schedule-item">16.30 - Hatha Flow</div>
+                <div class="schedule-item">18.30 - Vinyasa Flow</div>
+            </div>
+
+            <div class="schedule-content">
+                <div class="schedule-item">14.30 - Prenatal Yoga Regular</div>
+                <div class="schedule-item">16.30 - Vinyasa Flow</div>
+            </div>
+
+            <div class="schedule-content">
+                <div class="schedule-item">08.00 - Prenatal Private Group</div>
             </div>
 
             {{-- @endforeach --}}

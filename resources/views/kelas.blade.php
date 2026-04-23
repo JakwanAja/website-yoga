@@ -13,89 +13,51 @@
 $kelasList = [
     [
         'id'             => 1,
-        'nama_kelas'     => 'Beginner Yoga',
+        'nama_kelas'     => 'Hatha Yoga',
         'deskripsi'      => 'Kelas yoga dasar yang dirancang khusus untuk pemula. Kamu akan belajar teknik pernapasan, gerakan dasar asana, dan melatih keseimbangan tubuh secara perlahan dan menyenangkan.',
-        'instruktur'     => 'Sari Dewi, S.Pd.',
+        'instruktur'     => 'Bela',
         'kuota_maksimal' => 12,
         'kuota_sisa'     => 4,
         'harga'          => 150000,
         'kategori'       => 'yoga',
         'banner_class'   => 'yoga',
-        'dibuat_pada'    => '2025-01-10 08:00:00',
-        'diubah_pada'    => '2025-03-15 09:30:00',
     ],
     [
         'id'             => 2,
-        'nama_kelas'     => 'Pilates Core Strength',
+        'nama_kelas'     => 'Vinyasa Yoga',
         'deskripsi'      => 'Kelas pilates intensif yang berfokus pada penguatan otot inti (core). Cocok untuk kamu yang ingin memperbaiki postur, mengurangi nyeri punggung, dan meningkatkan stabilitas tubuh.',
-        'instruktur'     => 'Budi Santoso, S.Or.',
+        'instruktur'     => 'Nelly',
         'kuota_maksimal' => 10,
         'kuota_sisa'     => 0,
         'harga'          => 200000,
-        'kategori'       => 'pilates',
-        'banner_class'   => 'pilates',
-        'dibuat_pada'    => '2025-01-12 10:00:00',
-        'diubah_pada'    => '2025-04-01 11:00:00',
+        'kategori'       => 'yoga',
+        'banner_class'   => 'yoga',
     ],
     [
         'id'             => 3,
-        'nama_kelas'     => 'Yoga Relax & Stretch',
+        'nama_kelas'     => 'Prenatal Yoga regular ',
         'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Anita Pratiwi, M.Kes.',
-        'kuota_maksimal' => 15,
+        'instruktur'     => 'Fadila',
+        'kuota_maksimal' => 10,
         'kuota_sisa'     => 8,
-        'harga'          => 175000,
+        'harga'          => 250000,
         'kategori'       => 'relax',
         'banner_class'   => 'relax',
-        'dibuat_pada'    => '2025-02-05 09:00:00',
-        'diubah_pada'    => '2025-03-20 14:00:00',
     ],
+
     [
         'id'             => 4,
-        'nama_kelas'     => 'Advanced Vinyasa Yoga',
-        'deskripsi'      => 'Kelas vinyasa tingkat lanjut dengan rangkaian gerakan yang mengalir, dinamis, dan menantang. Disarankan untuk peserta yang sudah menguasai dasar-dasar yoga minimal 6 bulan.',
-        'instruktur'     => 'Sari Dewi, S.Pd.',
-        'kuota_maksimal' => 8,
+        'nama_kelas'     => 'Prenatal Private Group',
+        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
+        'instruktur'     => 'Fadila',
+        'kuota_maksimal' => 5,
         'kuota_sisa'     => 2,
-        'harga'          => 250000,
-        'kategori'       => 'advanced',
-        'banner_class'   => 'advanced',
-        'dibuat_pada'    => '2025-02-20 08:00:00',
-        'diubah_pada'    => '2025-04-10 09:00:00',
-    ],
-    [
-        'id'             => 5,
-        'nama_kelas'     => 'Mat Pilates',
-        'deskripsi'      => 'Kelas pilates menggunakan matras dengan latihan yang terstruktur dan aman. Sangat cocok untuk pemula yang ingin mencoba pilates atau mereka yang sedang dalam proses pemulihan cedera ringan.',
-        'instruktur'     => 'Budi Santoso, S.Or.',
-        'kuota_maksimal' => 12,
-        'kuota_sisa'     => 6,
-        'harga'          => 175000,
-        'kategori'       => 'pilates',
-        'banner_class'   => 'pilates',
-        'dibuat_pada'    => '2025-03-01 08:00:00',
-        'diubah_pada'    => '2025-04-05 10:00:00',
-    ],
-    [
-        'id'             => 6,
-        'nama_kelas'     => 'Meditation & Breathwork',
-        'deskripsi'      => 'Sesi meditasi terstruktur dan latihan pernapasan (pranayama) yang mendalam. Dirancang untuk membantu pikiran lebih fokus, tenang, dan meningkatkan kesejahteraan mental secara keseluruhan.',
-        'instruktur'     => 'Anita Pratiwi, M.Kes.',
-        'kuota_maksimal' => 20,
-        'kuota_sisa'     => 11,
-        'harga'          => 125000,
+        'harga'          => 300000,
         'kategori'       => 'relax',
         'banner_class'   => 'relax',
-        'dibuat_pada'    => '2025-03-10 07:00:00',
-        'diubah_pada'    => '2025-04-12 08:00:00',
     ],
-];
 
-$kategoriLabel = [
-    'yoga'     => 'Yoga',
-    'pilates'  => 'Pilates',
-    'relax'    => 'Relax & Meditasi',
-    'advanced' => 'Advanced',
+    
 ];
 @endphp
 
@@ -111,13 +73,6 @@ $kategoriLabel = [
     <div class="filter-search">
         <i class="fas fa-search"></i>
         <input type="text" id="searchInput" placeholder="Cari nama kelas atau instruktur..." oninput="filterKelas()">
-    </div>
-    <div class="filter-chips">
-        <button class="chip active" onclick="filterByKategori('semua', this)">Semua</button>
-        <button class="chip" onclick="filterByKategori('yoga', this)">Yoga</button>
-        <button class="chip" onclick="filterByKategori('pilates', this)">Pilates</button>
-        <button class="chip" onclick="filterByKategori('relax', this)">Relax & Meditasi</button>
-        <button class="chip" onclick="filterByKategori('advanced', this)">Advanced</button>
     </div>
 </div>
 
@@ -140,20 +95,6 @@ $kategoriLabel = [
                 <span>3</span>
             </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-users"></i></div>
-            <div class="stat-info">
-                <p>TOTAL KUOTA</p>
-                <span>{{ array_sum(array_column($kelasList, 'kuota_maksimal')) }}</span>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-door-open"></i></div>
-            <div class="stat-info">
-                <p>KURSI TERSISA</p>
-                <span>{{ array_sum(array_column($kelasList, 'kuota_sisa')) }}</span>
-            </div>
-        </div>
     </div>
 
     {{-- Grid Kelas --}}
@@ -161,12 +102,8 @@ $kategoriLabel = [
 
         @forelse ($kelasList as $kelas)
         <div class="kelas-card"
-             data-kategori="{{ $kelas['kategori'] }}"
-             data-nama="{{ strtolower($kelas['nama_kelas']) }}"
-             data-instruktur="{{ strtolower($kelas['instruktur']) }}">
-
-            {{-- Banner warna kategori --}}
-            <div class="kelas-banner {{ $kelas['banner_class'] }}"></div>
+            data-nama="{{ strtolower($kelas['nama_kelas']) }}"
+            data-instruktur="{{ strtolower($kelas['instruktur']) }}">
 
             <div class="kelas-body">
                 {{-- Badge --}}
@@ -255,7 +192,6 @@ $kategoriLabel = [
     // ============================================================
     // FILTER: search input
     // ============================================================
-    let activeKategori = 'semua';
 
     function filterKelas() {
         const q = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -264,23 +200,11 @@ $kategoriLabel = [
         cards.forEach(card => {
             const nama       = card.dataset.nama;
             const instruktur = card.dataset.instruktur;
-            const kategori   = card.dataset.kategori;
 
             const matchSearch   = nama.includes(q) || instruktur.includes(q);
-            const matchKategori = activeKategori === 'semua' || kategori === activeKategori;
 
-            card.style.display = (matchSearch && matchKategori) ? '' : 'none';
+            card.style.display = matchSearch ? '' : 'none';
         });
-    }
-
-    // ============================================================
-    // FILTER: chip kategori
-    // ============================================================
-    function filterByKategori(kategori, btn) {
-        activeKategori = kategori;
-        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        filterKelas();
     }
 
     // ============================================================

@@ -155,34 +155,6 @@
                     <input type="tel" name="phone" class="form-control" placeholder="Masukkan nomor telepon Anda" required>
                 </div>
 
-                <div class="form-row-inline">
-                    <div class="form-group">
-                        <label>Pilih Jadwal</label>
-                        <select name="jadwal" class="form-control" onchange="updatePreview(this)" required>
-                            <option value="">-- Pilih Jadwal --</option>
-                            <option value="Senin, 08.00 WIB">Senin, 08.00 WIB</option>
-                            <option value="Rabu, 10.00 WIB">Rabu, 10.00 WIB</option>
-                            <option value="Jumat, 16.00 WIB">Jumat, 16.00 WIB</option>
-                            <option value="Minggu, 10.00 WIB">Minggu, 10.00 WIB</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Jumlah Peserta</label>
-                        <div class="qty-input-wrapper">
-                            <button type="button" class="qty-btn" onclick="changeQty(-1)">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <input type="number" name="jumlah_peserta" id="jumlahPeserta"
-                                   class="form-control qty-input" value="1" min="1" max="5" readonly required>
-                            <button type="button" class="qty-btn" onclick="changeQty(1)">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                        <small class="form-hint">Maks. 5 orang per booking</small>
-                    </div>
-                </div>
-
                 <div id="schedulePreview" class="schedule-preview"></div>
 
                 <button type="submit" class="btn btn-primary btn-submit">
@@ -202,7 +174,7 @@
                     Kami berkomitmen untuk membantu Anda mencapai kesehatan dan keseimbangan hidup yang optimal.
                 </p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/asha.yogastudio?igsh=MTFsMnhyeTl0MnV4cQ=="><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-whatsapp"></i></a>
                     <a href="#"><i class="fab fa-youtube"></i></a>
@@ -223,10 +195,9 @@
             <div class="footer-links">
                 <h4>Kelas</h4>
                 <ul>
-                    <li><a href="#">Beginner Yoga</a></li>
-                    <li><a href="#">Pilates Core</a></li>
-                    <li><a href="#">Yoga Relax</a></li>
-                    <li><a href="#">Private Session</a></li>
+                    <li><a href="#">Hatha Yoga</a></li>
+                    <li><a href="#">Vinyasa Yoga</a></li>
+                    <li><a href="#">Prenatal Yoga</a></li>
                 </ul>
             </div>
 
