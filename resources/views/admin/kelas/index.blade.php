@@ -116,7 +116,7 @@
                                     <td class="bk-num">{{ $kelas->firstItem() + $i }}</td>
                                     <td>
                                         @if($k->gambar)
-                                            <img src="{{ asset('uploads/kelas/' . $k->gambar) }}" alt="" class="kelas-thumb" />
+                                            <img src="{{ url('uploads/kelas/' . $k->gambar) }}" alt="" class="kelas-thumb" />
                                         @else
                                             <div class="text-muted">—</div>
                                         @endif

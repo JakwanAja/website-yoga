@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Models\JadwalKelas;
 use App\Models\Kelas;
@@ -39,7 +40,14 @@ Route::prefix('admin')
     ->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('/jadwal', fn() => view('admin.jadwal'))->name('admin.jadwal');
+
+        // Jadwal CRUD
+        Route::get('/jadwal', [JadwalController::class, 'index'])->name('admin.jadwal');
+        Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('admin.jadwal.create');
+        Route::post('/jadwal', [JadwalController::class, 'store'])->name('admin.jadwal.store');
+        Route::get('/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('admin.jadwal.edit');
+        Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('admin.jadwal.update');
+        Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy');
 
         // Kelas CRUD
         Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas');

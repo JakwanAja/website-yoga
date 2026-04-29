@@ -43,7 +43,7 @@
                 <i class="fas fa-layer-group"></i> Kelas
             </a>
             <a href="{{ route('admin.jadwal') }}"
-               class="nav-item {{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
+               class="nav-item {{ request()->routeIs('admin.jadwal*') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i> Jadwal
             </a>
 

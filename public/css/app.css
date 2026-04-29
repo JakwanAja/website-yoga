@@ -272,6 +272,14 @@ select.form-control {
 }
 
 /* ========== LOGIN MODAL ========== */
+.login-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+}
+
 .login-modal-content {
     max-width: 500px;
 }

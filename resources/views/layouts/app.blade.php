@@ -233,7 +233,7 @@
                     <li><a href="{{ route('home') }}#about">About Us</a></li>
                     <li><a href="{{ route('kelas') }}#class">Classes</a></li>
                     <li><a href="{{ route('home') }}#schedule">Schedule</a></li>
-                    <li><a href="#" onclick="openLogin(); return false;">Login</a></li>
+                    <!-- <li><a href="#" onclick="openLogin(); return false;">Login</a></li> -->
                 </ul>
             </div>
 

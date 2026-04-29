@@ -37,7 +37,7 @@
                             <label class="bk-label"><i class="fas fa-image"></i> Gambar</label>
                             @if($isEdit && $item->gambar)
                                 <div class="mb-2">
-                                    <img src="{{ asset('uploads/kelas/' . $item->gambar) }}" alt=""
+                                    <img src="{{ url('uploads/kelas/' . $item->gambar) }}" alt=""
                                         style="max-height:160px; border-radius:10px;" />
                                 </div>
                             @endif

@@ -22,8 +22,8 @@ class LoginController extends Controller
             }
         }
 
-        // Belum login → kembali ke beranda (modal login sudah ada di sana)
-        return redirect()->route('home');
+        // Belum login → tampilkan halaman login terpisah
+        return view('auth.login');
     }
 
     /**
