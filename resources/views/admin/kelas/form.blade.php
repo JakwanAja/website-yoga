@@ -75,7 +75,8 @@
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-users"></i> Kuota (per kelas)</label>
-                            <input type="number" name="kuota" class="bk-input" value="{{ old('kuota', $item->kuota ?? 0) }}" min="0">
+                            <input type="number" name="kuota" class="bk-input" value="{{ old('kuota', $item->kuota ?? 0) }}"
+                                min="0">
                             @error('kuota') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 

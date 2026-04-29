@@ -49,7 +49,7 @@ class BookingController extends Controller
         Booking::create($validated);
 
         return redirect()->back()
-                         ->with('booking_success', 'Booking berhasil! Kami akan menghubungi Anda segera.');
+            ->with('booking_success', 'Booking berhasil! Kami akan menghubungi Anda segera.');
     }
 
     /**
@@ -65,8 +65,8 @@ class BookingController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('telephone', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('telephone', 'like', "%{$search}%");
             });
         }
 
@@ -108,7 +108,7 @@ class BookingController extends Controller
         $booking->update(['status' => $request->status]);
 
         return redirect()->route('admin.booking')
-                         ->with('success', "Status booking #{$id} diperbarui menjadi \"{$request->status}\".");
+            ->with('success', "Status booking #{$id} diperbarui menjadi \"{$request->status}\".");
     }
 
     /**
@@ -153,7 +153,7 @@ class BookingController extends Controller
         $booking->update($validated);
 
         return redirect()->route('admin.booking')
-                         ->with('success', 'Data booking berhasil diperbarui.');
+            ->with('success', 'Data booking berhasil diperbarui.');
     }
 
     /**
@@ -166,6 +166,6 @@ class BookingController extends Controller
         Booking::findOrFail($id)->delete();
 
         return redirect()->route('admin.booking')
-                         ->with('success', 'Data booking berhasil dihapus.');
+            ->with('success', 'Data booking berhasil dihapus.');
     }
 }
