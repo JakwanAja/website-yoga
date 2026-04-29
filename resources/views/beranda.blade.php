@@ -61,48 +61,9 @@
 
 <!-- ========== CLASS SECTION ========== -->
 
-{{-- ===== DATA DUMMY KELAS (sinkron dengan kelas.blade.php) ===== --}}
+{{-- Ambil sampai 4 kelas terbaru dari DB (View::composer menyediakan $kelases) --}}
 @php
-$kelasList = [
-    [
-        'id'             => 1,
-        'nama_kelas'     => 'Hatha Yoga',
-        'deskripsi'      => 'Kelas yoga dasar yang dirancang khusus untuk pemula. Kamu akan belajar teknik pernapasan, gerakan dasar asana, dan melatih keseimbangan tubuh secara perlahan dan menyenangkan.',
-        'instruktur'     => 'Bela',
-        'kuota_maksimal' => 12,
-        'kuota_sisa'     => 4,
-        'harga'          => 150000,
-    ],
-    [
-        'id'             => 2,
-        'nama_kelas'     => 'Vinyasa Yoga',
-        'deskripsi'      => 'Kelas pilates intensif yang berfokus pada penguatan otot inti (core). Cocok untuk kamu yang ingin memperbaiki postur, mengurangi nyeri punggung, dan meningkatkan stabilitas tubuh.',
-        'instruktur'     => 'Nelly',
-        'kuota_maksimal' => 10,
-        'kuota_sisa'     => 5,
-        'harga'          => 200000,
-    ],
-    [
-        'id'             => 3,
-        'nama_kelas'     => 'Prenatal Yoga Regular',
-        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Fadila',
-        'kuota_maksimal' => 10,
-        'kuota_sisa'     => 8,
-        'harga'          => 250000,
-    ],
-
-    [
-        'id'             => 4,
-        'nama_kelas'     => 'Prenatal Yoga Regular',
-        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Fadila',
-        'kuota_maksimal' => 5,
-        'kuota_sisa'     => 2,
-        'harga'          => 300000,
-    ],
-];
-
+    $kelasList = ($kelases ?? collect())->take(4);
 @endphp
 
 <section id="class" class="class-section">
@@ -125,64 +86,35 @@ $kelasList = [
             ];
             $bg = $gradients[$loop->index % count($gradients)];
 
-            // Ambil huruf awal untuk tampilan
-            $inisial = strtoupper(substr($kelas['nama_kelas'], 0, 1));
+            $inisial = strtoupper(substr($kelas->nama, 0, 1));
         @endphp
 
-        <div class="class-card" 
-            @if($kelas['kuota_sisa'] > 0) 
-                onclick="openBooking('{{ addslashes($kelas['nama_kelas']) }}')" 
-            @endif>
+        <div class="class-card" onclick="openBooking('{{ addslashes($kelas->nama) }}')">
 
              {{-- Gradient Banner --}}
-            <div class="class-image" 
-                data-bg="{{ $bg }}"
-                style="display:flex; align-items:center; justify-content:center;">
-                <span style="font-size:40px; color:white; font-weight:600;">
-                    {{ $inisial }}
-                </span>
+            <div class="class-image" data-bg="{{ $bg }}" style="display:flex; align-items:center; justify-content:center;">
+                <span style="font-size:40px; color:white; font-weight:600;">{{ $inisial }}</span>
             </div>
             <div class="class-content">
 
-            <h3>{{ $kelas['nama_kelas'] }}</h3>
-                <p>{{ $kelas['deskripsi'] }}</p>
+                <h3>{{ $kelas->nama }}</h3>
+                <p>{{ \Illuminate\Support\Str::limit($kelas->keterangan, 140) }}</p>
 
-                {{-- Meta info: instruktur & kuota --}}
+                {{-- Meta info: instruktur --}}
                 <div class="class-meta-row">
-                    <span class="class-meta-item">
-                        <i class="fas fa-user-tie"></i> {{ $kelas['instruktur'] }}
-                    </span>
-                    <span class="class-meta-item">
-                        <i class="fas fa-users"></i>
-                        {{ $kelas['kuota_sisa'] }}/{{ $kelas['kuota_maksimal'] }} kursi
-                        &nbsp;
-                        @if ($kelas['kuota_sisa'] === 0)
-                            <span class="kuota-badge full">Penuh</span>
-                        @elseif ($kelas['kuota_sisa'] <= 3)
-                            <span class="kuota-badge almost">Hampir Penuh</span>
-                        @else
-                            <span class="kuota-badge available">Tersedia</span>
-                        @endif
-                    </span>
+                    <span class="class-meta-item"><i class="fas fa-user-tie"></i> {{ $kelas->instruktur }}</span>
+                    <span class="class-meta-item"><i class="fas fa-users"></i> Tersedia</span>
                 </div>
 
                 {{-- Harga --}}
                 <div class="class-price-row">
                     <span class="class-price-label">Harga per sesi</span>
-                    <span class="class-price-value">Rp {{ number_format($kelas['harga'], 0, ',', '.') }}</span>
+                    <span class="class-price-value">Rp {{ number_format($kelas->harga ?? 0, 0, ',', '.') }}</span>
                 </div>
 
-                {{-- Tombol booking --}}
-                @if ($kelas['kuota_sisa'] === 0)
-                    <button class="class-btn class-btn-full" disabled>
-                        <i class="fas fa-ban"></i> Kelas Penuh
-                    </button>
-                @else
-                    @php $namaKelas = addslashes($kelas['nama_kelas']); @endphp
-                    <button class="class-btn class-btn-book" onclick="openBooking('{{ $namaKelas }}')">
-                        <i class="fas fa-calendar-plus"></i> Booking Kelas
-                    </button>
-                @endif
+                <button class="class-btn class-btn-book" onclick="openBooking('{{ addslashes($kelas->nama) }}')">
+                    <i class="fas fa-calendar-plus"></i> Booking Kelas
+                </button>
             </div>
         </div>
         @endforeach

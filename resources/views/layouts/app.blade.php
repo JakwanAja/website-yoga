@@ -176,12 +176,21 @@
                         <select name="id_jadwal" class="form-control" onchange="updatePreview(this)" required>
                             <option value="">-- Pilih Jadwal --</option>
                             @foreach($jadwals as $jadwal)
+                                @php
+                                    $booked = \App\Models\Booking::where('id_jadwal', $jadwal->id_jadwal)->count();
+                                    $kuota = $jadwal->kuota ?? null;
+                                    $sisa = is_null($kuota) ? null : max(0, $kuota - $booked);
+                                    $label = ucfirst($jadwal->hari) . ' — ' . \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') . ' WIB';
+                                    if (!is_null($kuota)) {
+                                        $label .= ' — Kuota: ' . $kuota . ' (Sisa: ' . $sisa . ')';
+                                    }
+                                @endphp
                                 <option
                                     value="{{ $jadwal->id_jadwal }}"
                                     {{ old('id_jadwal') == $jadwal->id_jadwal ? 'selected' : '' }}
+                                    {{ (!is_null($sisa) && $sisa <= 0) ? 'disabled' : '' }}
                                 >
-                                    {{ ucfirst($jadwal->hari) }} —
-                                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} WIB
+                                    {{ $label }}
                                 </option>
                             @endforeach
                         </select>

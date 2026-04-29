@@ -9,56 +9,9 @@
 @section('content')
 
 {{-- ========== DATA DUMMY HARDCODE (ganti dengan data dari DB nanti) ========== --}}
+{{-- Data diambil dari DB via View::composer sebagai $kelases --}}
 @php
-$kelasList = [
-    [
-        'id'             => 1,
-        'nama_kelas'     => 'Hatha Yoga',
-        'deskripsi'      => 'Kelas yoga dasar yang dirancang khusus untuk pemula. Kamu akan belajar teknik pernapasan, gerakan dasar asana, dan melatih keseimbangan tubuh secara perlahan dan menyenangkan.',
-        'instruktur'     => 'Bela',
-        'kuota_maksimal' => 12,
-        'kuota_sisa'     => 4,
-        'harga'          => 150000,
-        'kategori'       => 'yoga',
-        'banner_class'   => 'yoga',
-    ],
-    [
-        'id'             => 2,
-        'nama_kelas'     => 'Vinyasa Yoga',
-        'deskripsi'      => 'Kelas pilates intensif yang berfokus pada penguatan otot inti (core). Cocok untuk kamu yang ingin memperbaiki postur, mengurangi nyeri punggung, dan meningkatkan stabilitas tubuh.',
-        'instruktur'     => 'Nelly',
-        'kuota_maksimal' => 10,
-        'kuota_sisa'     => 0,
-        'harga'          => 200000,
-        'kategori'       => 'yoga',
-        'banner_class'   => 'yoga',
-    ],
-    [
-        'id'             => 3,
-        'nama_kelas'     => 'Prenatal Yoga regular ',
-        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Fadila',
-        'kuota_maksimal' => 10,
-        'kuota_sisa'     => 8,
-        'harga'          => 250000,
-        'kategori'       => 'relax',
-        'banner_class'   => 'relax',
-    ],
-
-    [
-        'id'             => 4,
-        'nama_kelas'     => 'Prenatal Private Group',
-        'deskripsi'      => 'Kelas yoga yang menekankan relaksasi mendalam dan peregangan seluruh otot tubuh. Sangat efektif untuk menghilangkan stres, ketegangan otot, dan meningkatkan kualitas tidur.',
-        'instruktur'     => 'Fadila',
-        'kuota_maksimal' => 5,
-        'kuota_sisa'     => 2,
-        'harga'          => 300000,
-        'kategori'       => 'relax',
-        'banner_class'   => 'relax',
-    ],
-
-    
-];
+    $kelasList = $kelases ?? collect();
 @endphp
 
 <!-- ========== PAGE HEADER ========== -->
@@ -85,7 +38,7 @@ $kelasList = [
             <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
             <div class="stat-info">
                 <p>TOTAL KELAS</p>
-                <span>{{ count($kelasList) }}</span>
+                <span>{{ $kelasList->count() }}</span>
             </div>
         </div>
         <div class="stat-card">
@@ -102,37 +55,27 @@ $kelasList = [
 
         @forelse ($kelasList as $kelas)
         <div class="kelas-card"
-            data-nama="{{ strtolower($kelas['nama_kelas']) }}"
-            data-instruktur="{{ strtolower($kelas['instruktur']) }}">
+            data-nama="{{ strtolower($kelas->nama) }}"
+            data-instruktur="{{ strtolower($kelas->instruktur) }}">
 
             <div class="kelas-body">
-                {{-- Badge --}}
-                <span class="kelas-badge">{{ $kategoriLabel[$kelas['kategori']] ?? $kelas['kategori'] }}</span>
-
                 {{-- Judul --}}
-                <h3>{{ $kelas['nama_kelas'] }}</h3>
+                <h3>{{ $kelas->nama }}</h3>
 
                 {{-- Deskripsi --}}
-                <p class="kelas-desc">{{ $kelas['deskripsi'] }}</p>
+                <p class="kelas-desc">{{ \Illuminate\Support\Str::limit($kelas->keterangan, 180) }}</p>
 
                 {{-- Meta info --}}
                 <div class="kelas-meta">
                     <div class="kelas-meta-item">
                         <i class="fas fa-user-tie"></i>
-                        <span><strong>Instruktur:</strong> {{ $kelas['instruktur'] }}</span>
+                        <span><strong>Instruktur:</strong> {{ $kelas->instruktur }}</span>
                     </div>
                     <div class="kelas-meta-item">
                         <i class="fas fa-users"></i>
                         <span>
-                            <strong>Kuota:</strong>
-                            {{ $kelas['kuota_sisa'] }}/{{ $kelas['kuota_maksimal'] }} kursi tersedia
-                            @if ($kelas['kuota_sisa'] === 0)
-                                <span class="kuota-badge full">Penuh</span>
-                            @elseif ($kelas['kuota_sisa'] <= 3)
-                                <span class="kuota-badge available">Hampir Penuh</span>
-                            @else
-                                <span class="kuota-badge available">Tersedia</span>
-                            @endif
+                            <strong>Status:</strong>
+                            <span class="kuota-badge available">Tersedia</span>
                         </span>
                     </div>
                 </div>
@@ -142,7 +85,7 @@ $kelasList = [
             <div class="kelas-price">
                 <span class="price-label">Harga per sesi</span>
                 <div>
-                    <span class="price-value">Rp {{ number_format($kelas['harga'], 0, ',', '.') }}</span>
+                    <span class="price-value">Rp {{ number_format($kelas->harga ?? 0, 0, ',', '.') }}</span>
                     <span class="price-per"> /sesi</span>
                 </div>
             </div>
@@ -187,7 +130,7 @@ $kelasList = [
     // DATA DUMMY (mirror PHP data — nanti bisa di-replace dengan
     // data dari API/controller)
     // ============================================================
-    //const kelasData = @json($kelasList);
+    const kelasData = @json($kelasList);
 
     // ============================================================
     // FILTER: search input

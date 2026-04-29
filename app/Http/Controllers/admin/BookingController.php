@@ -35,6 +35,17 @@ class BookingController extends Controller
         // Status selalu 'booking' saat dibuat dari publik
         $validated['status'] = 'booking';
 
+        // cek kuota pada jadwal
+        $jadwal = JadwalKelas::find($validated['id_jadwal']);
+        if (!$jadwal) {
+            return redirect()->back()->withErrors(['id_jadwal' => 'Jadwal tidak ditemukan.']);
+        }
+
+        $currentBookings = Booking::where('id_jadwal', $jadwal->id_jadwal)->count();
+        if ($jadwal->kuota !== null && $jadwal->kuota > 0 && $currentBookings >= $jadwal->kuota) {
+            return redirect()->back()->withErrors(['id_jadwal' => 'Maaf, kuota untuk jadwal ini sudah penuh.']);
+        }
+
         Booking::create($validated);
 
         return redirect()->back()

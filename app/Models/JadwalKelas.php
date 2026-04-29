@@ -15,6 +15,7 @@ class JadwalKelas extends Model
         'jam_mulai',
         'status',
         'booking_id_booking',
+        'kuota',
     ];
 
     /**
