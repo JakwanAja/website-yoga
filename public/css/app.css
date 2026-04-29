@@ -4,7 +4,7 @@
    Panggil di blade: <link rel="stylesheet" href="{{ asset('css/app.css') }}">
    ============================================= */
 
-   * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     background-color: var(--light);
     color: var(--dark);
     overflow-x: hidden;
@@ -41,14 +41,14 @@ body {
     padding: 20px 60px;
     background: rgba(249, 245, 242, 0.95);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
 .navbar.scrolled {
     padding: 15px 60px;
-    box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
 }
 
 .nav-logo {
@@ -67,7 +67,7 @@ body {
 }
 
 .nav-logo-text {
-    font-family: 'Lavishly Yours', cursive;
+    font-family: "Lavishly Yours", cursive;
     font-size: 28px;
     color: var(--dark);
 }
@@ -89,7 +89,7 @@ body {
 }
 
 .nav-menu a::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -5px;
     left: 0;
@@ -129,7 +129,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
     z-index: 2000;
     justify-content: center;
@@ -149,7 +149,7 @@ body {
     max-width: 600px;
     position: relative;
     animation: slideUp 0.3s ease;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-height: 90vh;
     overflow-y: auto;
 }
@@ -172,7 +172,7 @@ body {
 }
 
 .modal-title {
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
     font-size: 32px;
     color: var(--dark);
     margin-bottom: 15px;
@@ -208,7 +208,7 @@ body {
     color: var(--dark);
     font-size: 15px;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .form-control:focus {
@@ -335,7 +335,7 @@ select.form-control {
 }
 
 .footer-brand h3 {
-    font-family: 'Lavishly Yours', cursive;
+    font-family: "Lavishly Yours", cursive;
     font-size: 36px;
     margin-bottom: 20px;
 }
@@ -354,7 +354,7 @@ select.form-control {
 .social-links a {
     width: 40px;
     height: 40px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -395,15 +395,19 @@ select.form-control {
 .footer-bottom {
     text-align: center;
     padding-top: 30px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: #ccc;
     font-size: 14px;
 }
 
 /* ========== ANIMATIONS ========== */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
@@ -449,58 +453,66 @@ select.form-control {
     }
 }
 
-    /* Booking modal: baris jadwal + jumlah peserta sejajar */
+/* Booking modal: baris jadwal + jumlah peserta sejajar */
+.form-row-inline {
+    display: flex;
+    gap: 16px;
+}
+.form-row-inline .form-group {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Qty stepper */
+.qty-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 44px;
+}
+.qty-btn {
+    width: 40px;
+    height: 44px;
+    background: #f7f7f5;
+    border: none;
+    color: #555;
+    font-size: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+.qty-btn:hover {
+    background: #eeede9;
+}
+.qty-input {
+    flex: 1;
+    text-align: center;
+    border: none !important;
+    border-left: 1px solid #ddd !important;
+    border-right: 1px solid #ddd !important;
+    border-radius: 0 !important;
+    height: 44px;
+    font-weight: 500;
+    padding: 0 !important;
+}
+.qty-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Hint text di bawah field */
+.form-hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+    display: block;
+}
+
+@media (max-width: 480px) {
     .form-row-inline {
-        display: flex;
-        gap: 16px;
+        flex-direction: column;
+        gap: 0;
     }
-    .form-row-inline .form-group {
-        flex: 1;
-        min-width: 0;
-    }
-
-    /* Qty stepper */
-    .qty-input-wrapper {
-        display: flex;
-        align-items: center;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-        height: 44px;
-    }
-    .qty-btn {
-        width: 40px;
-        height: 44px;
-        background: #f7f7f5;
-        border: none;
-        color: #555;
-        font-size: 12px;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: background 0.15s;
-    }
-    .qty-btn:hover { background: #eeede9; }
-    .qty-input {
-        flex: 1;
-        text-align: center;
-        border: none !important;
-        border-left: 1px solid #ddd !important;
-        border-right: 1px solid #ddd !important;
-        border-radius: 0 !important;
-        height: 44px;
-        font-weight: 500;
-        padding: 0 !important;
-    }
-    .qty-input:focus { outline: none; box-shadow: none; }
-
-    /* Hint text di bawah field */
-    .form-hint {
-        font-size: 11px;
-        color: #999;
-        margin-top: 4px;
-        display: block;
-    }
-
-    @media (max-width: 480px) {
-        .form-row-inline { flex-direction: column; gap: 0; }
-    }
+}
