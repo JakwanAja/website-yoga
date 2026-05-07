@@ -169,30 +169,12 @@
                     @enderror
                 </div>
 
-                {{-- Jadwal — diambil dari database --}}
+                {{-- Jadwal — diisi JS berdasarkan kelas yang dipilih --}}
                 <div class="form-row-inline">
                     <div class="form-group">
                         <label>Pilih Jadwal</label>
-                        <select name="id_jadwal" class="form-control" onchange="updatePreview(this)" required>
+                        <select name="id_jadwal" id="jadwalSelect" class="form-control" onchange="updatePreview(this)" required>
                             <option value="">-- Pilih Jadwal --</option>
-                            @foreach($jadwals as $jadwal)
-                                @php
-                                    $booked = \App\Models\Booking::where('id_jadwal', $jadwal->id_jadwal)->count();
-                                    $kuota = $jadwal->kuota ?? null;
-                                    $sisa = is_null($kuota) ? null : max(0, $kuota - $booked);
-                                    $label = ucfirst($jadwal->hari) . ' — ' . \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') . ' WIB';
-                                    if (!is_null($kuota)) {
-                                        $label .= ' — Kuota: ' . $kuota . ' (Sisa: ' . $sisa . ')';
-                                    }
-                                @endphp
-                                <option
-                                    value="{{ $jadwal->id_jadwal }}"
-                                    {{ old('id_jadwal') == $jadwal->id_jadwal ? 'selected' : '' }}
-                                    {{ (!is_null($sisa) && $sisa <= 0) ? 'disabled' : '' }}
-                                >
-                                    {{ $label }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('id_jadwal')
                             <span style="color:#991b1b;font-size:0.8rem;">{{ $message }}</span>
@@ -267,6 +249,9 @@
         var hasLoginError   = "{{ $errors->has('login') ? '1' : '0' }}";
         var hasBookingError = "{{ ($errors->any() && !$errors->has('login')) ? '1' : '0' }}";
         var bookingSuccess  = "{{ session('booking_success') ? '1' : '0' }}";
+
+        // Data jadwal dikelompokkan per nama_kelas — untuk filter select jadwal di modal booking
+        var jadwalsByKelas = @json($jadwalsByKelas ?? []);
     </script>
 
     <!-- ========== JAVASCRIPT ========== -->
@@ -317,9 +302,49 @@
         // ── Booking Modal ──────────────────────────────────
         function openBooking(className) {
             document.getElementById('bookingModal').classList.add('active');
-            document.getElementById('selectedClass').textContent = className;
-            document.getElementById('classNameInput').value = className;
+            document.getElementById('selectedClass').textContent = className || '';
+            document.getElementById('classNameInput').value = className || '';
             document.body.style.overflow = 'hidden';
+
+            // Filter jadwal berdasarkan nama kelas yang dipilih
+            filterJadwalByKelas(className);
+        }
+
+        function filterJadwalByKelas(className) {
+            const select = document.getElementById('jadwalSelect');
+            if (!select) return;
+
+            // Reset select
+            select.innerHTML = '<option value="">-- Pilih Jadwal --</option>';
+
+            if (!className) return;
+
+            // Langsung cari jadwal berdasarkan nama kelas
+            const jadwals = jadwalsByKelas[className];
+
+            if (!jadwals || jadwals.length === 0) {
+                const opt = document.createElement('option');
+                opt.disabled = true;
+                opt.textContent = '— Belum ada jadwal untuk kelas ini —';
+                select.appendChild(opt);
+                return;
+            }
+
+            // Isi option jadwal sesuai kelas
+            jadwals.forEach(function (j) {
+                const opt = document.createElement('option');
+                opt.value = j.id_jadwal;
+                opt.textContent = j.label;
+                if (j.disabled) {
+                    opt.disabled = true;
+                    opt.textContent += ' (Penuh)';
+                }
+                select.appendChild(opt);
+            });
+
+            // Reset preview
+            const preview = document.getElementById('schedulePreview');
+            if (preview) preview.classList.remove('active');
         }
 
         function closeBooking() {
@@ -336,7 +361,6 @@
                 preview.classList.remove('active');
             }
         }
-
         // ── Login Modal ────────────────────────────────────
         function openLogin() {
             document.getElementById('loginModal').classList.add('active');
@@ -363,7 +387,7 @@
         // Auto-buka modal jika ada error atau success
         document.addEventListener('DOMContentLoaded', function () {
             if (hasLoginError   === '1') openLogin();
-            if (hasBookingError === '1') openBooking('');
+            if (hasBookingError === '1') openBooking('{{ old('class_name', '') }}');
             if (bookingSuccess  === '1') openBooking('');
         });
     </script>

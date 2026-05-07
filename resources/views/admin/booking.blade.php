@@ -10,9 +10,6 @@
 
 @section('content')
 
-{{-- ═══════════════════════════════════════
-     SUMMARY CARDS
-════════════════════════════════════════ --}}
 <div class="bk-summary">
     <div class="bk-stat-card">
         <div class="bk-stat-icon" style="background:rgba(166,124,115,0.12);color:var(--primary)">

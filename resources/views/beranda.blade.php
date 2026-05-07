@@ -74,9 +74,6 @@
         </div>
         <div class="class-grid">
 
-            {{-- NANTI BISA DIGANTI DENGAN DATA DARI DATABASE --}}
-            {{-- @foreach($kelasList as $kelas) --}}
-
             @foreach ($kelasList as $kelas)
                 @php
                     $gradients = [
@@ -86,21 +83,27 @@
                         'linear-gradient(135deg, #f6d365, #fda085)'
                     ];
                     $bg = $gradients[$loop->index % count($gradients)];
-
-                    $inisial = strtoupper(substr($kelas->nama, 0, 1));
+                    $inisial = strtoupper(substr($kelas->nama_kelas, 0, 1));
+                    $hasGambar = !empty($kelas->foto) && file_exists(public_path('uploads/kelas/' . $kelas->foto));
                 @endphp
 
-                <div class="class-card" onclick="openBooking('{{ addslashes($kelas->nama) }}')">
+                <div class="class-card">
+                        <div class="class-image" style="overflow:hidden;">
+                            @if($hasGambar)
+                                <img src="{{ asset('uploads/kelas/' . $kelas->foto) }}"
+                                     alt="{{ $kelas->nama_kelas }}"
+                                     style="width:100%; height:100%; object-fit:cover; display:block;">
+                            @else
+                                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:{{ $bg }};font-size:48px;color:#fff;font-weight:bold;">
+                                    {{ $inisial }}
+                                </div>
+                            @endif
+                        </div>
 
-                    {{-- Gradient Banner --}}
-                    <div class="class-image" data-bg="{{ $bg }}"
-                        style="display:flex; align-items:center; justify-content:center;">
-                        <span style="font-size:40px; color:white; font-weight:600;">{{ $inisial }}</span>
-                    </div>
                     <div class="class-content">
 
-                        <h3>{{ $kelas->nama }}</h3>
-                        <p>{{ \Illuminate\Support\Str::limit($kelas->keterangan, 140) }}</p>
+                        <h3>{{ $kelas->nama_kelas }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit($kelas->deskripsi, 140) }}</p>
 
                         {{-- Meta info: instruktur --}}
                         <div class="class-meta-row">
@@ -111,17 +114,18 @@
                         {{-- Harga --}}
                         <div class="class-price-row">
                             <span class="class-price-label">Harga per sesi</span>
-                            <span class="class-price-value">Rp {{ number_format($kelas->harga ?? 0, 0, ',', '.') }}</span>
+                            <span class="class-price-value">Rp {{ number_format($kelas->biaya ?? 0, 0, ',', '.') }}</span>
                         </div>
 
-                        <button class="class-btn class-btn-book" onclick="openBooking('{{ addslashes($kelas->nama) }}')">
+                        {{-- Tombol Booking --}}
+                        <button class="class-btn class-btn-book" onclick="openBooking('{{ addslashes($kelas->nama_kelas) }}')">
                             <i class="fas fa-calendar-plus"></i> Booking Kelas
                         </button>
+
                     </div>
                 </div>
             @endforeach
 
-            {{-- @endforeach --}}
         </div>
 
         {{-- Tombol lihat semua kelas --}}
@@ -133,6 +137,12 @@
     </section>
 
     <!-- ========== SCHEDULE SECTION ========== -->
+    @php
+        $hariList = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+        // Group jadwal aktif berdasarkan hari
+        $jadwalByHari = ($jadwals ?? collect())->groupBy('hari');
+    @endphp
+
     <section id="schedule" class="schedule-section">
         <div class="section-header">
             <span class="section-tag">JADWAL KELAS</span>
@@ -140,58 +150,26 @@
         </div>
         <div class="schedule-container">
             <div class="schedule-table">
-                <!-- Header -->
-                <div class="schedule-day">SENIN</div>
-                <div class="schedule-day">SELASA</div>
-                <div class="schedule-day">RABU</div>
-                <div class="schedule-day">KAMIS</div>
-                <div class="schedule-day">JUMAT</div>
-                <div class="schedule-day">SABTU</div>
-                <div class="schedule-day">MINGGU</div>
+                {{-- Header hari --}}
+                @foreach($hariList as $hari)
+                    <div class="schedule-day">{{ strtoupper($hari) }}</div>
+                @endforeach
 
-                <!-- Content -->
-                {{-- NANTI BAGIAN INI BISA DIGANTI DENGAN DATA DARI DATABASE --}}
-                {{-- @foreach($schedules->groupBy('day') as $day => $daySchedules) --}}
-
-                <div class="schedule-content">
-                    <div class="schedule-item">10.00 - Vinyasa Flow</div>
-                    <div class="schedule-item">16.30 - Hatha Flow</div>
-
-                    {{-- Atau dari database:
-                    @foreach($daySchedules as $schedule)
-                    <div class="schedule-item">{{ $schedule->time }} - {{ $schedule->class_name }}</div>
-                    @endforeach
-                    --}}
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">08.00 - Hatha Flow</div>
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">16.30 - Hatha Flow</div>
-                    <div class="schedule-item">18.30 - Vinyasa Flow</div>
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">16.30 - Hatha Flow</div>
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">16.30 - Hatha Flow</div>
-                    <div class="schedule-item">18.30 - Vinyasa Flow</div>
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">14.30 - Prenatal Yoga Regular</div>
-                    <div class="schedule-item">16.30 - Vinyasa Flow</div>
-                </div>
-
-                <div class="schedule-content">
-                    <div class="schedule-item">08.00 - Prenatal Private Group</div>
-                </div>
-
-                {{-- @endforeach --}}
+                {{-- Content jadwal per hari --}}
+                @foreach($hariList as $hari)
+                    <div class="schedule-content">
+                        @if(isset($jadwalByHari[$hari]) && $jadwalByHari[$hari]->count() > 0)
+                            @foreach($jadwalByHari[$hari] as $jadwal)
+                                <div class="schedule-item">
+                                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }}
+                                    - {{ $jadwal->kelas->nama_kelas ?? '—' }}
+                                </div>
+                            @endforeach
+                        @else
+                            <div style="color:#bbb; font-size:13px; text-align:center; padding-top:8px;">—</div>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -200,7 +178,6 @@
 
 @section('scripts')
     <script>
-        // Custom scripts untuk halaman beranda jika diperlukan
         console.log('Beranda loaded successfully!');
     </script>
 @endsection

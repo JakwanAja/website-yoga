@@ -60,7 +60,7 @@
                     @foreach($jadwals as $jadwal)
                     <tr>
                         <td>{{ $jadwal->id_jadwal }}</td>
-                        <td>{{ $jadwal->kelas?->nama ?? '–' }}</td>
+                        <td>{{ $jadwal->kelas?->nama_kelas ?? '–' }}</td>
                         <td>{{ $jadwal->hari_label }}</td>
                         <td>{{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} WIB</td>
                         <td>{{ $jadwal->kuota ?? '–' }}</td>
@@ -68,7 +68,7 @@
                             <a href="{{ route('admin.jadwal.edit', $jadwal->id_jadwal) }}" class="btn-primary" style="padding:8px 14px; font-size:13px;">
                                 <i class="fas fa-pen"></i>
                             </a>
-                            <form action="{{ route('admin.jadwal.destroy', $jadwal->id_jadwal) }}" method="POST" style="display:inline-block; margin-left:8px;" onsubmit="return confirm('Hapus jadwal {{ addslashes($jadwal->kelas?->nama ?? 'jadwal ini') }}?');">
+                            <form action="{{ route('admin.jadwal.destroy', $jadwal->id_jadwal) }}" method="POST" style="display:inline-block; margin-left:8px;" onsubmit="return confirm('Hapus jadwal {{ addslashes($jadwal->kelas?->nama_kelas ?? 'jadwal ini') }}?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-primary" style="background:#d9534f; border:none;"> <i class="fas fa-trash-alt"></i> </button>

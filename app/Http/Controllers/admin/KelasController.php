@@ -15,9 +15,9 @@ class KelasController extends Controller
 
         if ($search = request('search')) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
+                $q->where('nama_kelas', 'like', "%{$search}%")      // fix: nama → nama_kelas
                     ->orWhere('instruktur', 'like', "%{$search}%")
-                    ->orWhere('keterangan', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%");   // fix: keterangan → deskripsi
             });
         }
 
@@ -25,12 +25,10 @@ class KelasController extends Controller
             $query->where('instruktur', $instruktur);
         }
 
-        $kelas = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $kelas = $query->orderBy('id_kelas', 'desc')->paginate(10)->withQueryString(); // fix: created_at → id_kelas
         $total = Kelas::count();
-        // jumlah instruktur unik
         $instrukturCount = Kelas::distinct()->count('instruktur');
-        // rata-rata harga (null jika tidak ada)
-        $avgHarga = Kelas::avg('harga');
+        $avgHarga = Kelas::avg('biaya');
 
         return view('admin.kelas.index', compact('kelas', 'total', 'instrukturCount', 'avgHarga'));
     }
@@ -43,19 +41,21 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama' => 'required|string|max:255',
-            'keterangan' => 'required|string',
-            'instruktur' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            'kuota' => 'nullable|integer|min:0',
-            'gambar' => 'nullable|image|max:2048',
+            'nama_kelas'  => 'required|string|max:35',       // fix: nama → nama_kelas
+            'deskripsi'   => 'required|string',              // fix: keterangan → deskripsi
+            'instruktur'  => 'required|string|max:30',
+            'biaya'       => 'required|numeric',
+            'kuota'       => 'nullable|integer|min:0',
+            'foto'        => 'nullable|image|max:2048',      // fix: gambar → foto
         ]);
 
-        if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
             $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '-' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/kelas'), $filename);
-            $data['gambar'] = $filename;
+            $uploadPath = public_path('uploads/kelas');
+            if (!file_exists($uploadPath)) mkdir($uploadPath, 0755, true); // buat folder jika belum ada
+            $file->move($uploadPath, $filename);
+            $data['foto'] = $filename;
         }
 
         Kelas::create($data);
@@ -73,23 +73,24 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
 
         $data = $request->validate([
-            'nama' => 'required|string|max:255',
-            'keterangan' => 'required|string',
-            'instruktur' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            'kuota' => 'nullable|integer|min:0',
-            'gambar' => 'nullable|image|max:2048',
+            'nama_kelas'  => 'required|string|max:35',       // fix: nama → nama_kelas
+            'deskripsi'   => 'required|string',              // fix: keterangan → deskripsi
+            'instruktur'  => 'required|string|max:30',
+            'biaya'       => 'required|numeric',
+            'kuota'       => 'nullable|integer|min:0',
+            'foto'        => 'nullable|image|max:2048',      // fix: gambar → foto
         ]);
 
-        if ($request->hasFile('gambar')) {
-            // delete old file
-            if ($kelas->gambar && file_exists(public_path('uploads/kelas/' . $kelas->gambar))) {
-                @unlink(public_path('uploads/kelas/' . $kelas->gambar));
+        if ($request->hasFile('foto')) {
+            if ($kelas->foto && file_exists(public_path('uploads/kelas/' . $kelas->foto))) {
+                @unlink(public_path('uploads/kelas/' . $kelas->foto));
             }
-            $file = $request->file('gambar');
+            $file = $request->file('foto');
             $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '-' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/kelas'), $filename);
-            $data['gambar'] = $filename;
+            $uploadPath = public_path('uploads/kelas');
+            if (!file_exists($uploadPath)) mkdir($uploadPath, 0755, true); // buat folder jika belum ada
+            $file->move($uploadPath, $filename);
+            $data['foto'] = $filename;
         }
 
         $kelas->update($data);
@@ -99,8 +100,8 @@ class KelasController extends Controller
     public function destroy($id)
     {
         $kelas = Kelas::findOrFail($id);
-        if ($kelas->gambar && file_exists(public_path('uploads/kelas/' . $kelas->gambar))) {
-            @unlink(public_path('uploads/kelas/' . $kelas->gambar));
+        if ($kelas->foto && file_exists(public_path('uploads/kelas/' . $kelas->foto))) {
+            @unlink(public_path('uploads/kelas/' . $kelas->foto));
         }
         $kelas->delete();
         return redirect()->route('admin.kelas')->with('success', 'Kelas berhasil dihapus.');

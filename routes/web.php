@@ -5,8 +5,10 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\KelasController;
-use App\Models\JadwalKelas;
+use App\Models\Booking;
+use App\Models\JadwalModel;
 use App\Models\Kelas;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -17,9 +19,34 @@ use Illuminate\Support\Facades\View;
 */
 
 View::composer(['beranda', 'kelas', 'layouts.app'], function ($view) {
-    $view->with('jadwals', JadwalKelas::where('status', 1)->orderBy('hari')->get());
+    // Jadwal aktif dengan relasi kelas (untuk filter per kelas di modal booking)
+    $jadwals = JadwalModel::with('kelas')
+        ->where('status', 'aktif')
+        ->orderBy('hari')
+        ->get();
+
+    // Group jadwal berdasarkan kelas_id — dipakai JS untuk filter select jadwal
+    // Group by nama_kelas agar JS bisa langsung cocokkan dengan className yang diklik
+    $jadwalsByKelas = $jadwals->groupBy(function ($j) {
+        return $j->kelas->nama_kelas ?? 'unknown';
+    })->map(function ($items) {
+        return $items->map(function ($j) {
+            $booked = \App\Models\Booking::where('id_jadwal', $j->id_jadwal)->count();
+            $kuota  = $j->sisa_kuota ?? null;
+            $sisa   = is_null($kuota) ? null : max(0, $kuota - $booked);
+            return [
+                'id_jadwal' => $j->id_jadwal,
+                'label'     => ucfirst($j->hari) . ' — ' . \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') . ' WIB'
+                               . (!is_null($kuota) ? ' — Sisa: ' . $sisa : ''),
+                'disabled'  => !is_null($sisa) && $sisa <= 0,
+            ];
+        })->values();
+    });
+
+    $view->with('jadwals', $jadwals);
+    $view->with('jadwalsByKelas', $jadwalsByKelas);
     // Share kelas untuk halaman publik
-    $view->with('kelases', Kelas::orderBy('created_at', 'desc')->get());
+    $view->with('kelases', Kelas::orderBy('id_kelas', 'desc')->get()); // ← fix: ganti created_at → id_kelas
 });
 
 // ── Halaman Publik ──────────────────────────────────────────
@@ -28,6 +55,9 @@ Route::view('/kelas', 'kelas')->name('kelas');
 
 // ── Booking Publik ──────────────────────────────────────────
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+Route::get('/booking/create', function () {
+    return redirect()->route('home');
+})->name('booking.create');
 
 // ── Auth ────────────────────────────────────────────────────
 Route::get('/login', [LoginController::class, 'redirectIfAuthenticated'])->name('login');

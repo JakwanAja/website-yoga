@@ -38,14 +38,14 @@
                     <div class="bk-stat-label">Instruktur</div>
                 </div>
             </div>
-            <div class="bk-stat-card">
+              {{-- <div class="bk-stat-card">
                 <div class="bk-stat-icon" style="background:rgba(106,158,127,0.12);color:var(--success)">
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
-                <div>
+               <div>
                     <div class="bk-stat-value">{{ $avgHarga ? ('Rp ' . number_format(round($avgHarga), 0, ',', '.')) : '—' }}</div>
                     <div class="bk-stat-label">Harga Rata-rata</div>
-                </div>
+                </div>--}}
             </div>
         </div>
 
@@ -115,33 +115,33 @@
                                 <tr>
                                     <td class="bk-num">{{ $kelas->firstItem() + $i }}</td>
                                     <td>
-                                        @if($k->gambar)
-                                            <img src="{{ url('uploads/kelas/' . $k->gambar) }}" alt="" class="kelas-thumb" />
+                                        @if($k->foto)
+                                            <img src="{{ url('uploads/kelas/' . $k->foto) }}" alt="" class="kelas-thumb" />
                                         @else
                                             <div class="text-muted">—</div>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="bk-peserta">
-                                            <div class="bk-avatar">{{ strtoupper(substr($k->nama, 0, 1)) }}</div>
-                                            <span>{{ $k->nama }}</span>
+                                            <div class="bk-avatar">{{ strtoupper(substr($k->nama_kelas, 0, 1)) }}</div>
+                                            <span>{{ $k->nama_kelas }}</span>
                                         </div>
                                         <div class="bk-jam" style="margin-top:6px">
-                                            {{ \Illuminate\Support\Str::limit($k->keterangan, 80) }}</div>
+                                            {{ \Illuminate\Support\Str::limit($k->deskripsi, 80) }}</div>
                                     </td>
                                     <td class="bk-email">{{ $k->instruktur }}</td>
-                                    <td>{{ $k->harga_rp ?? ('Rp ' . number_format($k->harga, 0, ',', '.')) }}</td>
+                                    <td>{{ $k->biaya_rp ?? ('Rp ' . number_format($k->biaya, 0, ',', '.')) }}</td>
                                     <td>
                                         <div class="bk-actions">
-                                            <a href="{{ route('admin.kelas.edit', $k->id) }}" class="bk-btn-edit"
+                                            <a href="{{ route('admin.kelas.edit', $k->id_kelas) }}" class="bk-btn-edit"
                                                 title="Edit Kelas">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <button onclick="confirmDelete({{ $k->id }}, '{{ addslashes($k->nama) }}')"
+                                            <button onclick="confirmDelete({{ $k->id_kelas }}, '{{ addslashes($k->nama_kelas) }}')"
                                                 class="bk-btn-delete" title="Hapus Kelas">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                            <form id="delete-form-{{ $k->id }}" action="{{ route('admin.kelas.destroy', $k->id) }}"
+                                            <form id="delete-form-{{ $k->id_kelas }}" action="{{ route('admin.kelas.destroy', $k->id_kelas) }}"
                                                 method="POST" style="display:none">
                                                 @csrf
                                                 @method('DELETE')
@@ -212,20 +212,20 @@
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-image"></i> Gambar</label>
-                            <input type="file" name="gambar" class="bk-input">
-                            @error('gambar') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <input type="file" name="foto" class="bk-input">
+                            @error('foto') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-heading"></i> Nama Yoga</label>
-                            <input type="text" name="nama" class="bk-input" value="{{ old('nama') }}" required>
-                            @error('nama') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <input type="text" name="nama_kelas" class="bk-input" value="{{ old('nama_kelas') }}" required>
+                            @error('nama_kelas') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-align-left"></i> Keterangan</label>
-                            <textarea name="keterangan" class="bk-input" rows="4" required>{{ old('keterangan') }}</textarea>
-                            @error('keterangan') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <textarea name="deskripsi" class="bk-input" rows="4" required>{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
@@ -236,8 +236,8 @@
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-money-bill-wave"></i> Harga</label>
-                            <input type="number" step="0.01" name="harga" class="bk-input" value="{{ old('harga', 0) }}" required>
-                            @error('harga') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <input type="number" step="0.01" name="biaya" class="bk-input" value="{{ old('biaya', 0) }}" required>
+                            @error('biaya') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
@@ -293,11 +293,5 @@
             document.getElementById('modal-add').classList.remove('show');
         }
 
-        // If validation errors exist for add form, open modal automatically
-        @if($errors->any() && old('nama'))
-            document.addEventListener('DOMContentLoaded', function(){
-                openAddModal();
-            });
-        @endif
     </script>
 @endpush

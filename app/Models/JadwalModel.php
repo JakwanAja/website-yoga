@@ -18,13 +18,17 @@ class JadwalModel extends Model
         'hari',
         'jam_mulai',
         'status',
-        'kuota',
-        'booking_id_booking',
+        'sisa_kuota',
+        // 'booking_id_booking' ← dihapus, tidak ada di tabel
+    ];
+    protected $attributes = [
+        'status' => 'aktif', // default otomatis saat create
     ];
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'kelas_id');
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id_kelas');
+        //                                               ↑ tambahkan foreign key yang benar
     }
 
     public function getHariLabelAttribute(): string

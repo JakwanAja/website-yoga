@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\JadwalKelas;
+use App\Models\JadwalModel;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -22,6 +22,7 @@ class BookingController extends Controller
             'email'     => 'required|email|max:35',
             'telephone' => 'required|string|max:13',
             'id_jadwal' => 'required|exists:jadwal_kelas,id_jadwal',
+            'class_name'=> 'nullable|string|max:255',
         ], [
             'nama.required'      => 'Nama lengkap wajib diisi.',
             'email.required'     => 'Email wajib diisi.',
@@ -36,13 +37,13 @@ class BookingController extends Controller
         $validated['status'] = 'booking';
 
         // cek kuota pada jadwal
-        $jadwal = JadwalKelas::find($validated['id_jadwal']);
+        $jadwal = JadwalModel::find($validated['id_jadwal']);
         if (!$jadwal) {
             return redirect()->back()->withErrors(['id_jadwal' => 'Jadwal tidak ditemukan.']);
         }
 
         $currentBookings = Booking::where('id_jadwal', $jadwal->id_jadwal)->count();
-        if ($jadwal->kuota !== null && $jadwal->kuota > 0 && $currentBookings >= $jadwal->kuota) {
+        if ($jadwal->sisa_kuota !== null && $jadwal->sisa_kuota > 0 && $currentBookings >= $jadwal->sisa_kuota) {
             return redirect()->back()->withErrors(['id_jadwal' => 'Maaf, kuota untuk jadwal ini sudah penuh.']);
         }
 
@@ -79,7 +80,7 @@ class BookingController extends Controller
         }
 
         $bookings = $query->orderBy('kode_booking', 'desc')->paginate(10)->withQueryString();
-        $jadwals  = JadwalKelas::orderBy('hari')->get();
+        $jadwals  = JadwalModel::orderBy('hari')->get();
         $total    = Booking::count();
 
         // Hitung per-status untuk summary card
@@ -119,7 +120,7 @@ class BookingController extends Controller
     public function edit(int $id)
     {
         $booking  = Booking::findOrFail($id);
-        $jadwals  = JadwalKelas::where('status', 1)->orderBy('hari')->get();
+        $jadwals  = JadwalModel::where('status', 1)->orderBy('hari')->get();
         $statuses = Booking::STATUSES;
 
         return view('admin.booking-edit', compact('booking', 'jadwals', 'statuses'));

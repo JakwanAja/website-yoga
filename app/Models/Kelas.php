@@ -10,21 +10,20 @@ class Kelas extends Model
     use HasFactory;
 
     protected $table = 'kelas';
+    protected $primaryKey = 'id_kelas';
+    public $timestamps = false; // ← tambahkan ini
 
     protected $fillable = [
-        'gambar',
-        'nama',
-        'keterangan',
+        'foto',
+        'nama_kelas',
+        'deskripsi',
         'instruktur',
-        'harga',
-        'kuota',
+        'kuota',   
+        'biaya',
     ];
 
-    /**
-     * Format harga sebagai string currency
-     */
-    public function getHargaRpAttribute(): string
+    public function getBiayaRpAttribute(): string
     {
-        return 'Rp ' . number_format($this->harga, 0, ',', '.');
+        return 'Rp ' . number_format($this->biaya, 0, ',', '.');
     }
 }

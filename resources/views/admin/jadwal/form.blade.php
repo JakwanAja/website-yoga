@@ -43,8 +43,8 @@
                     <select name="kelas_id" class="form-control" required {{ $kelasOptions->isEmpty() ? 'disabled' : '' }}>
                         <option value="">Pilih kelas yoga</option>
                         @foreach($kelasOptions as $kelas)
-                            <option value="{{ $kelas->id }}" {{ old('kelas_id', $item->kelas_id) == $kelas->id ? 'selected' : '' }}>
-                                {{ $kelas->nama }}
+                            <option value="{{ $kelas->id_kelas }}" {{ old('kelas_id', $item->kelas_id) == $kelas->id_kelas ? 'selected' : '' }}>
+                                {{ $kelas->nama_kelas }}
                             </option>
                         @endforeach
                     </select>
@@ -70,7 +70,6 @@
                     <input type="number" name="kuota" class="form-control" min="0" value="{{ old('kuota', $item->kuota) }}">
                 </div>
             </div>
-
 
             <button type="submit" class="btn-primary" style="margin-top:16px;" {{ $kelasOptions->isEmpty() ? 'disabled' : '' }}>
                 <i class="fas fa-save"></i>

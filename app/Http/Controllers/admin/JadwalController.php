@@ -31,17 +31,17 @@ class JadwalController extends Controller
     {
         $item = new JadwalModel();
         $hariOptions = $this->hariOptions;
-        $kelasOptions = Kelas::orderBy('nama')->get();
+        $kelasOptions = Kelas::orderBy('nama_kelas')->get();
         return view('admin.jadwal.form', compact('item', 'hariOptions', 'kelasOptions'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:kelas,id_kelas',
             'hari' => 'required|in:senin,selasa,rabu,kamis,jumat,sabtu,minggu',
             'jam_mulai' => 'required|date_format:H:i',
-            'kuota' => 'nullable|integer|min:0',
+            'sisa_kuota' => 'nullable|integer|min:0',
         ]);
 
         JadwalModel::create($data);
@@ -53,7 +53,7 @@ class JadwalController extends Controller
     {
         $item = JadwalModel::findOrFail($id);
         $hariOptions = $this->hariOptions;
-        $kelasOptions = Kelas::orderBy('nama')->get();
+        $kelasOptions = Kelas::orderBy('nama_kelas')->get();
         return view('admin.jadwal.form', compact('item', 'hariOptions', 'kelasOptions'));
     }
 
@@ -62,10 +62,10 @@ class JadwalController extends Controller
         $jadwal = JadwalModel::findOrFail($id);
 
         $data = $request->validate([
-            'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:kelas,id_kelas',
             'hari' => 'required|in:senin,selasa,rabu,kamis,jumat,sabtu,minggu',
             'jam_mulai' => 'required|date_format:H:i',
-            'kuota' => 'nullable|integer|min:0',
+            'sisa_kuota' => 'nullable|integer|min:0',
         ]);
 
         $jadwal->update($data);
@@ -76,9 +76,6 @@ class JadwalController extends Controller
     public function destroy($id)
     {
         $jadwal = JadwalModel::findOrFail($id);
-        if ($jadwal->gambar && file_exists(public_path('uploads/kelas/' . $jadwal->gambar))) {
-            @unlink(public_path('uploads/kelas/' . $jadwal->gambar));
-        }
         $jadwal->delete();
 
         return redirect()->route('admin.jadwal')->with('success', 'Jadwal yoga berhasil dihapus.');

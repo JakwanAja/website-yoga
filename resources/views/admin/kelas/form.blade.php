@@ -26,7 +26,7 @@
                 kelas</a>
             <div class="bk-edit-panel card bk-edit-panel">
                 <div class="bk-edit-body card-body">
-                    <form action="{{ $isEdit ? route('admin.kelas.update', $item->id) : route('admin.kelas.store') }}"
+                    <form action="{{ $isEdit ? route('admin.kelas.update', $item->id_kelas) : route('admin.kelas.store') }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @if($isEdit)
@@ -35,28 +35,28 @@
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-image"></i> Gambar</label>
-                            @if($isEdit && $item->gambar)
+                            @if($isEdit && $item->foto)
                                 <div class="mb-2">
-                                    <img src="{{ url('uploads/kelas/' . $item->gambar) }}" alt=""
+                                    <img src="{{ url('uploads/kelas/' . $item->foto) }}" alt=""
                                         style="max-height:160px; border-radius:10px;" />
                                 </div>
                             @endif
-                            <input type="file" name="gambar" class="bk-input">
-                            @error('gambar') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <input type="file" name="foto" class="bk-input">
+                            @error('foto') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-heading"></i> Nama Yoga</label>
-                            <input type="text" name="nama" class="bk-input" value="{{ old('nama', $item->nama ?? '') }}"
+                            <input type="text" name="nama_kelas" class="bk-input" value="{{ old('nama_kelas', $item->nama_kelas ?? '') }}"
                                 required>
-                            @error('nama') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            @error('nama_kelas') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-align-left"></i> Keterangan</label>
-                            <textarea name="keterangan" class="bk-input" rows="5"
-                                required>{{ old('keterangan', $item->keterangan ?? '') }}</textarea>
-                            @error('keterangan') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <textarea name="deskripsi" class="bk-input" rows="5"
+                                required>{{ old('deskripsi', $item->deskripsi ?? '') }}</textarea>
+                            @error('deskripsi') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
@@ -68,9 +68,9 @@
 
                         <div class="bk-field">
                             <label class="bk-label"><i class="fas fa-money-bill-wave"></i> Harga</label>
-                            <input type="number" step="0.01" name="harga" class="bk-input"
-                                value="{{ old('harga', $item->harga ?? 0) }}" required>
-                            @error('harga') <div class="bk-field-error">{{ $message }}</div> @enderror
+                            <input type="number" step="0.01" name="biaya" class="bk-input"
+                                value="{{ old('biaya', $item->biaya ?? 0) }}" required>
+                            @error('biaya') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="bk-field">
