@@ -6,7 +6,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\ManageAdminController;
-use App\Models\JadwalModel; // FIX: ganti JadwalKelas → JadwalModel (sesuai nama model di project)
+use App\Http\Controllers\Admin\LaporanController;
+use App\Models\JadwalModel; 
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -89,7 +90,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:superadmin'])
     ->group(function () {
         Route::get('/kelola-admin-page', fn() => view('admin.kelola-admin'))->name('admin.kelola-admin');
-        Route::get('/laporan',      fn() => view('admin.laporan'))->name('admin.laporan');
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
         Route::get('/pengaturan',   fn() => view('admin.pengaturan'))->name('admin.pengaturan');
 
         // Manage Admin CRUD

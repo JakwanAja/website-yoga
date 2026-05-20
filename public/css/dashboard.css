@@ -984,6 +984,313 @@ body {
     border-radius: 10px;
 }
 
+/* ══════════════════════════════════════════
+   LAPORAN PAGE
+══════════════════════════════════════════ */
+
+/* Filter Bar */
+.filter-bar {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: var(--card-shadow);
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.filter-group label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+}
+.filter-group input[type="date"] {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    background: var(--light);
+    outline: none;
+    transition: var(--transition);
+}
+.filter-group input[type="date"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(166, 124, 115, 0.12);
+}
+.btn-filter {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-filter:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-print {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+.btn-print:hover { background: var(--cream); }
+.no-date-notice {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: #fffbe6;
+    border: 1px solid #ffe58f;
+    border-radius: 10px;
+    padding: 8px 14px;
+    align-self: flex-end;
+}
+
+/* Laporan Stat Grid — 6 kolom, berbeda dari .stats-grid dashboard */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+@media (max-width: 1100px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px)  { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-grid .stat-card { border-radius: 16px; }
+.stat-grid .stat-card::before { border-radius: 16px 16px 0 0; }
+.stat-grid .stat-card.accent-gold::before   { background: var(--warning); }
+.stat-grid .stat-card.accent-green::before  { background: var(--success); }
+.stat-grid .stat-card.accent-blue::before   { background: var(--info); }
+.stat-grid .stat-card.accent-purple::before { background: #722ed1; }
+
+.stat-grid .stat-icon.gold   { background: rgba(201,169,110,.12); color: var(--warning); }
+.stat-grid .stat-icon.green  { background: rgba(106,158,127,.12); color: var(--success); }
+.stat-grid .stat-icon.blue   { background: rgba(122,158,181,.12); color: var(--info); }
+.stat-grid .stat-icon.purple { background: rgba(114,46,209,.08);  color: #722ed1; }
+.stat-grid .stat-icon.teal   { background: rgba(19,194,194,.10);  color: #13c2c2; }
+
+/* Revenue Hero */
+.revenue-hero {
+    background: linear-gradient(135deg, var(--dark) 0%, #3d3535 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.revenue-hero-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent-soft);
+    margin-bottom: 6px;
+}
+.revenue-hero-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--accent-soft);
+    line-height: 1;
+}
+.revenue-hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,.50);
+    margin-top: 6px;
+}
+.revenue-hero-icon {
+    font-size: 52px;
+    color: var(--accent);
+    opacity: .35;
+}
+
+/* Section Grid */
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.section-grid .panel-full { grid-column: 1 / -1; }
+@media (max-width: 900px) { .section-grid { grid-template-columns: 1fr; } }
+
+/* Panel header overrides for laporan */
+.section-grid .panel-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.section-grid .panel-header h3 i { color: var(--primary); font-size: 15px; }
+
+/* Kelas Populer */
+.kelas-rank {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--primary);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.kelas-rank.rank-1 { background: var(--warning); color: #fff; }
+.kelas-rank.rank-2 { background: #c0c0c0;        color: #fff; }
+.kelas-rank.rank-3 { background: #cd7f32;        color: #fff; }
+.kelas-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.kelas-bar-wrap {
+    margin-top: 6px;
+    background: var(--cream);
+    border-radius: 4px;
+    height: 5px;
+    width: 100%;
+}
+.kelas-bar {
+    height: 5px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    transition: width .6s ease;
+}
+
+/* Distribusi Status */
+.status-dist-list { display: flex; flex-direction: column; gap: 14px; }
+.status-dist-item { display: flex; align-items: center; gap: 12px; }
+.status-dot {
+    width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+}
+.status-dot.status-booking       { background: var(--warning); }
+.status-dot.status-terkonfirmasi { background: var(--info); }
+.status-dot.status-hadir         { background: var(--success); }
+.status-dot.status-selesai       { background: var(--primary); }
+.status-dist-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--dark);
+}
+.status-dist-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    min-width: 28px;
+    text-align: right;
+}
+.status-dist-pct {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 36px;
+    text-align: right;
+}
+.status-progress {
+    flex: 2;
+    background: var(--cream);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+.status-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+    transition: width .6s ease;
+}
+.status-progress-bar.status-booking       { background: var(--warning); }
+.status-progress-bar.status-terkonfirmasi { background: var(--info); }
+.status-progress-bar.status-hadir         { background: var(--success); }
+.status-progress-bar.status-selesai       { background: var(--primary); }
+
+/* Laporan Table */
+.laporan-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.laporan-table th {
+    text-align: left;
+    padding: 10px 24px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+    background: var(--light);
+}
+.laporan-table td {
+    padding: 13px 24px;
+    border-bottom: 1px solid rgba(232, 221, 216, 0.5);
+    color: var(--dark);
+    vertical-align: middle;
+}
+.laporan-table tr:last-child td { border-bottom: none; }
+.laporan-table tr:hover td      { background: rgba(249,245,242,.7); }
+.laporan-table .td-rp {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+}
+.laporan-table tfoot td {
+    font-weight: 700;
+    border-top: 2px solid var(--border);
+    background: var(--light);
+    font-size: 14px;
+}
+.laporan-table tfoot .td-rp { font-size: 17px; }
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 36px 20px;
+    color: var(--text-muted);
+}
+.empty-state i { font-size: 32px; color: var(--border); margin-bottom: 10px; display: block; }
+.empty-state p { font-size: 14px; margin: 0; }
+
+/* Print */
+@media print {
+    .filter-bar, .btn-print, .btn-filter { display: none !important; }
+    .sidebar, .topbar { display: none !important; }
+    .main { margin-left: 0 !important; }
+    .panel { box-shadow: none; }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     :root {

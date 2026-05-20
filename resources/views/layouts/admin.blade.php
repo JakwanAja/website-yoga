@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Lavishly+Yours&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    {{-- CSS per halaman (misal dashboard.css, booking.css, dst) --}}
     @yield('styles')
 
 </head>
@@ -53,7 +52,7 @@
                class="nav-item {{ request()->routeIs('admin.manage-admin') || request()->routeIs('admin.admin.*') ? 'active' : '' }}">
                 <i class="fas fa-users-cog"></i> Kelola Admin
             </a>
-            <a href="#" class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.laporan') }}" class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i> Laporan
             </a>
             <a href="#" class="nav-item {{ request()->routeIs('admin.pengaturan') ? 'active' : '' }}">
@@ -81,9 +80,6 @@
         </div>
     </aside>
 
-    <!-- ══════════════════════════════
-         MAIN
-    ══════════════════════════════ -->
     <div class="main">
 
         <!-- TOPBAR -->
