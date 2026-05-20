@@ -52,7 +52,7 @@
                         <th>Nama Yoga</th>
                         <th>Hari</th>
                         <th>Jam Mulai</th>
-                        <th>Kuota</th>
+                        <th>Sisa Kuota</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -63,7 +63,8 @@
                         <td>{{ $jadwal->kelas?->nama_kelas ?? '–' }}</td>
                         <td>{{ $jadwal->hari_label }}</td>
                         <td>{{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} WIB</td>
-                        <td>{{ $jadwal->kuota ?? '–' }}</td>
+                        {{-- FIX: ganti $jadwal->kuota → $jadwal->sisa_kuota (nama field yang benar di tabel) --}}
+                        <td>{{ $jadwal->sisa_kuota ?? '–' }}</td>
                         <td>
                             <a href="{{ route('admin.jadwal.edit', $jadwal->id_jadwal) }}" class="btn-primary" style="padding:8px 14px; font-size:13px;">
                                 <i class="fas fa-pen"></i>

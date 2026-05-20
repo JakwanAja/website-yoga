@@ -88,17 +88,17 @@
                 @endphp
 
                 <div class="class-card">
-                        <div class="class-image" style="overflow:hidden;">
-                            @if($hasGambar)
-                                <img src="{{ asset('uploads/kelas/' . $kelas->foto) }}"
-                                     alt="{{ $kelas->nama_kelas }}"
-                                     style="width:100%; height:100%; object-fit:cover; display:block;">
-                            @else
-                                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:{{ $bg }};font-size:48px;color:#fff;font-weight:bold;">
-                                    {{ $inisial }}
-                                </div>
-                            @endif
-                        </div>
+                    <div class="class-image" style="overflow:hidden;">
+                        @if($hasGambar)
+                            <img src="{{ asset('uploads/kelas/' . $kelas->foto) }}"
+                                 alt="{{ $kelas->nama_kelas }}"
+                                 style="width:100%; height:100%; object-fit:cover; display:block;">
+                        @else
+                            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:{{ $bg }};font-size:48px;color:#fff;font-weight:bold;">
+                                {{ $inisial }}
+                            </div>
+                        @endif
+                    </div>
 
                     <div class="class-content">
 
@@ -138,9 +138,9 @@
 
     <!-- ========== SCHEDULE SECTION ========== -->
     @php
-        $hariList = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
-        // Group jadwal aktif berdasarkan hari
-        $jadwalByHari = ($jadwals ?? collect())->groupBy('hari');
+        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        // FIX: groupBy lowercase karena nilai 'hari' di DB disimpan lowercase (senin, selasa, dst)
+        $jadwalByHari = ($jadwals ?? collect())->groupBy(fn($j) => ucfirst(strtolower($j->hari)));
     @endphp
 
     <section id="schedule" class="schedule-section">
@@ -150,7 +150,7 @@
         </div>
         <div class="schedule-container">
             <div class="schedule-table">
-                {{-- Header hari --}}
+                {{-- Header hari — strtoupper agar tetap tampil kapital semua --}}
                 @foreach($hariList as $hari)
                     <div class="schedule-day">{{ strtoupper($hari) }}</div>
                 @endforeach

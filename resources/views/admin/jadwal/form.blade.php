@@ -37,6 +37,7 @@
                     Belum ada kelas yoga yang tersedia. Silakan tambah kelas terlebih dahulu melalui menu "Kelas".
                 </div>
             @endif
+
             <div class="form-grid">
                 <div class="form-group">
                     <label>Nama Yoga</label>
@@ -62,16 +63,30 @@
 
                 <div class="form-group">
                     <label>Jam Mulai</label>
-                    <input type="time" name="jam_mulai" class="form-control" value="{{ old('jam_mulai', $item->jam_mulai) }}" required>
+                    <input type="time" name="jam_mulai" class="form-control"
+                        value="{{ old('jam_mulai', $item->jam_mulai) }}" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Kuota</label>
-                    <input type="number" name="kuota" class="form-control" min="0" value="{{ old('kuota', $item->kuota) }}">
-                </div>
+                {{--
+                    FIX: Field kuota dihapus dari form jadwal.
+                    Sisa kuota (sisa_kuota) diisi otomatis dari kuota kelas saat jadwal dibuat,
+                    dan berkurang sendiri setiap ada booking masuk — tidak perlu input manual.
+                --}}
+                @if($item->exists)
+                    <div class="form-group">
+                        <label>Sisa Kuota</label>
+                        <input type="text" class="form-control"
+                            value="{{ $item->sisa_kuota ?? '—' }}" disabled
+                            style="background:#f5f5f5; color:#888; cursor:not-allowed;">
+                        <small style="font-size:0.8rem; color:#888;">
+                            Diisi otomatis dari kuota kelas. Berkurang setiap ada booking masuk.
+                        </small>
+                    </div>
+                @endif
             </div>
 
-            <button type="submit" class="btn-primary" style="margin-top:16px;" {{ $kelasOptions->isEmpty() ? 'disabled' : '' }}>
+            <button type="submit" class="btn-primary" style="margin-top:16px;"
+                {{ $kelasOptions->isEmpty() ? 'disabled' : '' }}>
                 <i class="fas fa-save"></i>
                 {{ $item->exists ? 'Perbarui Jadwal' : 'Simpan Jadwal' }}
             </button>

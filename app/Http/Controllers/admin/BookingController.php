@@ -36,18 +36,23 @@ class BookingController extends Controller
         // Status selalu 'booking' saat dibuat dari publik
         $validated['status'] = 'booking';
 
-        // cek kuota pada jadwal
+        // Cek kuota pada jadwal
         $jadwal = JadwalModel::find($validated['id_jadwal']);
         if (!$jadwal) {
             return redirect()->back()->withErrors(['id_jadwal' => 'Jadwal tidak ditemukan.']);
         }
 
-        $currentBookings = Booking::where('id_jadwal', $jadwal->id_jadwal)->count();
-        if ($jadwal->sisa_kuota !== null && $jadwal->sisa_kuota > 0 && $currentBookings >= $jadwal->sisa_kuota) {
+        // FIX: cek menggunakan sisa_kuota (bukan hitung manual), lebih akurat
+        if ($jadwal->sisa_kuota !== null && $jadwal->sisa_kuota <= 0) {
             return redirect()->back()->withErrors(['id_jadwal' => 'Maaf, kuota untuk jadwal ini sudah penuh.']);
         }
 
         Booking::create($validated);
+
+        // FIX: kurangi sisa_kuota di jadwal setiap booking berhasil dibuat
+        if ($jadwal->sisa_kuota !== null) {
+            $jadwal->decrement('sisa_kuota');
+        }
 
         return redirect()->back()
             ->with('booking_success', 'Booking berhasil! Kami akan menghubungi Anda segera.');
@@ -91,7 +96,7 @@ class BookingController extends Controller
             'selesai'       => Booking::where('status', 'selesai')->count(),
         ];
 
-        return view('admin.booking', compact('bookings', 'jadwals', 'total', 'statusCount'));
+        return view('admin.booking.booking', compact('bookings', 'jadwals', 'total', 'statusCount'));
     }
 
     /**
@@ -120,10 +125,11 @@ class BookingController extends Controller
     public function edit(int $id)
     {
         $booking  = Booking::findOrFail($id);
-        $jadwals  = JadwalModel::where('status', 1)->orderBy('hari')->get();
+        // FIX: ganti where('status', 1) → where('status', 'aktif') agar jadwal muncul di dropdown
+        $jadwals  = JadwalModel::where('status', 'aktif')->orderBy('hari')->get();
         $statuses = Booking::STATUSES;
 
-        return view('admin.booking-edit', compact('booking', 'jadwals', 'statuses'));
+        return view('admin.booking.booking-edit', compact('booking', 'jadwals', 'statuses'));
     }
 
     /**

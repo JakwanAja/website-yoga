@@ -9,31 +9,26 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * Primary key sesuai skema database.
-     */
     protected $primaryKey = 'id_user';
+    public $incrementing = true;        
+    protected $keyType = 'int';    
 
     protected $fillable = [
         'nama_user',
         'username',
         'password',
         'role',
+        'status',
     ];
 
-    /**
-     * Kolom yang disembunyikan saat serialisasi.
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Cast tipe data kolom.
-     */
     protected $casts = [
-        'status' => 'boolean',
+        // status disimpan sebagai string ENUM ('aktif'/'nonaktif'), bukan boolean
+        'status' => 'string',
     ];
 
     // ── Helper: cek role ──────────────────────────────────────
@@ -48,14 +43,6 @@ class User extends Authenticatable
         return $this->role === 'superadmin';
     }
 
-    /**
-     * Ubah status user — hanya boleh dipanggil oleh superadmin.
-     *
-     * Contoh di controller:
-     *   if (Auth::user()->isSuperAdmin()) {
-     *       $user->setStatus(1);
-     *   }
-     */
     public function setStatus(int $status): void
     {
         $this->status = $status;

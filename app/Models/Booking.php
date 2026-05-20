@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\JadwalModel;
 
 class Booking extends Model
 {
@@ -37,11 +37,8 @@ class Booking extends Model
         };
     }
 
-    /**
-     * Relasi ke jadwal_kelas
-     */
     public function jadwal()
     {
-        return $this->belongsTo(JadwalKelas::class, 'id_jadwal', 'id_jadwal');
+        return $this->belongsTo(JadwalModel::class, 'id_jadwal', 'id_jadwal');
     }
 }

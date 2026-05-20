@@ -38,15 +38,6 @@
                     <div class="bk-stat-label">Instruktur</div>
                 </div>
             </div>
-              {{-- <div class="bk-stat-card">
-                <div class="bk-stat-icon" style="background:rgba(106,158,127,0.12);color:var(--success)">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-               <div>
-                    <div class="bk-stat-value">{{ $avgHarga ? ('Rp ' . number_format(round($avgHarga), 0, ',', '.')) : '—' }}</div>
-                    <div class="bk-stat-label">Harga Rata-rata</div>
-                </div>--}}
-            </div>
         </div>
 
         <div class="panel">
@@ -106,7 +97,7 @@
                                 <th>Gambar</th>
                                 <th>Nama Kelas</th>
                                 <th>Instruktur</th>
-                                <th>Harga</th>
+                                <th>Biaya</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -235,7 +226,7 @@
                         </div>
 
                         <div class="bk-field">
-                            <label class="bk-label"><i class="fas fa-money-bill-wave"></i> Harga</label>
+                            <label class="bk-label"><i class="fas fa-money-bill-wave"></i> Biaya</label>
                             <input type="number" step="0.01" name="biaya" class="bk-input" value="{{ old('biaya', 0) }}" required>
                             @error('biaya') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>

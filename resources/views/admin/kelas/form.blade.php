@@ -73,10 +73,19 @@
                             @error('biaya') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
+                        {{--
+                            FIX: Label diganti "Kuota (per kelas)" → "Sisa Kuota"
+                            karena field ini menyimpan sisa slot tersedia,
+                            dan berkurang otomatis setiap ada booking masuk.
+                            Field name tetap 'kuota' agar tidak perlu ubah migration/controller.
+                        --}}
                         <div class="bk-field">
-                            <label class="bk-label"><i class="fas fa-users"></i> Kuota (per kelas)</label>
-                            <input type="number" name="kuota" class="bk-input" value="{{ old('kuota', $item->kuota ?? 0) }}"
-                                min="0">
+                            <label class="bk-label"><i class="fas fa-users"></i> Sisa Kuota</label>
+                            <input type="number" name="kuota" class="bk-input"
+                                value="{{ old('kuota', $item->kuota ?? 0) }}" min="0">
+                            <small style="font-size:0.8rem; color:#888;">
+                                Jumlah slot tersedia. Berkurang otomatis setiap ada booking masuk.
+                            </small>
                             @error('kuota') <div class="bk-field-error">{{ $message }}</div> @enderror
                         </div>
 
@@ -90,6 +99,6 @@
         </div>
 @endsection
 
-    @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @endpush
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@endpush

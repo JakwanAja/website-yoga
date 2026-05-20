@@ -26,10 +26,10 @@
             <span class="nav-logo-text">Asha Studio</span>
         </a>
         <ul class="nav-menu">
-            <li><a href="{{ route('home') }}#home" class="{{ Request::is('/') ? 'active' : '' }}">HOME</a></li>
-            <li><a href="{{ route('home') }}#about">ABOUT</a></li>
-            <li><a href="{{ route('kelas') }}">CLASS</a></li>
-            <li><a href="{{ route('home') }}#schedule">SCHEDULE</a></li>
+            <li><a href="{{ route('home') }}#home" class="{{ Request::is('/') ? 'active' : '' }}">BERANDA</a></li>
+            <li><a href="{{ route('home') }}#about">TENTANG</a></li>
+            <li><a href="{{ route('kelas') }}">KELAS</a></li>
+            <li><a href="{{ route('home') }}#schedule">JADWAL</a></li>
         </ul>
     </nav>
 

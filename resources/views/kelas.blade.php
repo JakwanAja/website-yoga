@@ -8,9 +8,11 @@
 
 @section('content')
 
-    {{-- Data diambil dari DB via View::composer sebagai $kelases --}}
     @php
-        $kelasList = $kelases ?? collect();
+        $kelasList   = $kelases ?? collect();
+        // Kelompokkan jadwal aktif per nama kelas untuk ditampilkan di card
+        $jadwalPerKelas = ($jadwals ?? collect())
+            ->groupBy(fn($j) => $j->kelas->nama_kelas ?? '');
     @endphp
 
     <!-- ========== PAGE HEADER ========== -->
@@ -47,6 +49,13 @@
                     <span>{{ $kelasList->pluck('instruktur')->unique()->count() }}</span>
                 </div>
             </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-info">
+                    <p>TOTAL JADWAL</p>
+                    <span>{{ ($jadwals ?? collect())->count() }}</span>
+                </div>
+            </div>
         </div>
 
         {{-- Grid Kelas --}}
@@ -60,25 +69,46 @@
                         'linear-gradient(135deg, #a18cd1, #fbc2eb)',
                         'linear-gradient(135deg, #f6d365, #fda085)'
                     ];
-                    $bg = $gradients[$loop->index % count($gradients)];
-                    $inisial = strtoupper(substr($kelas->nama, 0, 1));
-                    $hasGambar = !empty($kelas->gambar) && file_exists(public_path('uploads/kelas/' . $kelas->gambar));
+                    $bg       = $gradients[$loop->index % count($gradients)];
+                    $inisial  = strtoupper(substr($kelas->nama_kelas, 0, 1));
+                    // FIX: nama field foto (bukan gambar), nama_kelas (bukan nama)
+                    $hasGambar = !empty($kelas->foto) && file_exists(public_path('uploads/kelas/' . $kelas->foto));
+
+                    // Ambil jadwal untuk kelas ini
+                    $jadwalKelas = $jadwalPerKelas[$kelas->nama_kelas] ?? collect();
+
+                    // Hitung sisa kuota total dari semua jadwal kelas ini
+                    $sisaKuotaTotal = $jadwalKelas->sum('sisa_kuota');
+                    $adaJadwal      = $jadwalKelas->count() > 0;
+                    $penuh          = $adaJadwal && $sisaKuotaTotal <= 0;
                 @endphp
 
-                <div class="kelas-card" data-nama="{{ strtolower($kelas->nama) }}"
+                <div class="kelas-card"
+                    {{-- FIX: data-nama dan data-instruktur pakai field yang benar --}}
+                    data-nama="{{ strtolower($kelas->nama_kelas) }}"
                     data-instruktur="{{ strtolower($kelas->instruktur) }}">
-                        <div class="kelas-banner" style="height:200px;">
-                            <img src="{{ asset('uploads/kelas/' . $kelas->gambar) }}"
-                                 alt="{{ $kelas->nama }}"
+
+                    <div class="kelas-banner" style="height:200px; overflow:hidden;">
+                        @if($hasGambar)
+                            {{-- FIX: pakai $kelas->foto (bukan $kelas->gambar) --}}
+                            <img src="{{ asset('uploads/kelas/' . $kelas->foto) }}"
+                                 alt="{{ $kelas->nama_kelas }}"
                                  style="width:100%; height:100%; object-fit:cover; display:block;">
-                        </div>
+                        @else
+                            {{-- Fallback jika tidak ada foto --}}
+                            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+                                        background:{{ $bg }}; font-size:56px; color:#fff; font-weight:bold;">
+                                {{ $inisial }}
+                            </div>
+                        @endif
+                    </div>
 
                     <div class="kelas-body">
-                        {{-- Judul --}}
-                        <h3>{{ $kelas->nama }}</h3>
+                        {{-- FIX: pakai nama_kelas --}}
+                        <h3>{{ $kelas->nama_kelas }}</h3>
 
-                        {{-- Deskripsi --}}
-                        <p class="kelas-desc">{{ \Illuminate\Support\Str::limit($kelas->keterangan, 180) }}</p>
+                        {{-- FIX: pakai deskripsi (bukan keterangan) --}}
+                        <p class="kelas-desc">{{ \Illuminate\Support\Str::limit($kelas->deskripsi, 180) }}</p>
 
                         {{-- Meta info --}}
                         <div class="kelas-meta">
@@ -90,25 +120,62 @@
                                 <i class="fas fa-users"></i>
                                 <span>
                                     <strong>Status:</strong>
-                                    <span class="kuota-badge available">Tersedia</span>
+                                    @if(!$adaJadwal)
+                                        <span class="kuota-badge" style="background:#e5e7eb; color:#6b7280;">Belum Ada Jadwal</span>
+                                    @elseif($penuh)
+                                        <span class="kuota-badge" style="background:#fee2e2; color:#991b1b;">Penuh</span>
+                                    @else
+                                        <span class="kuota-badge available">Tersedia</span>
+                                    @endif
                                 </span>
                             </div>
                         </div>
+
+                        {{-- Jadwal tersedia untuk kelas ini --}}
+                        @if($adaJadwal)
+                            <div class="kelas-jadwal" style="margin-top:12px;">
+                                <p style="font-size:0.78rem; font-weight:600; color:#7c6b5e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">
+                                    <i class="fas fa-calendar-alt"></i> Jadwal Tersedia
+                                </p>
+                                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                                    @foreach($jadwalKelas as $jadwal)
+                                        @php
+                                            $habis = $jadwal->sisa_kuota !== null && $jadwal->sisa_kuota <= 0;
+                                        @endphp
+                                        <span style="
+                                            font-size:0.75rem;
+                                            padding:3px 10px;
+                                            border-radius:20px;
+                                            background: {{ $habis ? '#fee2e2' : '#f0fdf4' }};
+                                            color: {{ $habis ? '#991b1b' : '#166534' }};
+                                            border: 1px solid {{ $habis ? '#fca5a5' : '#86efac' }};
+                                        ">
+                                            {{ ucfirst($jadwal->hari) }},
+                                            {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} WIB
+                                            @if($habis) · Penuh @endif
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
-                    {{-- Harga --}}
+                    {{-- FIX: pakai biaya (bukan harga) --}}
                     <div class="kelas-price">
                         <span class="price-label">Harga per sesi</span>
                         <div>
-                            <span class="price-value">Rp {{ number_format($kelas->harga ?? 0, 0, ',', '.') }}</span>
+                            <span class="price-value">Rp {{ number_format($kelas->biaya ?? 0, 0, ',', '.') }}</span>
                             <span class="price-per"> /sesi</span>
                         </div>
                     </div>
 
                     {{-- Tombol Booking --}}
                     <div class="kelas-footer">
-                        <button class="btn-booking" onclick="openBooking('{{ addslashes($kelas->nama) }}')">
-                            <i class="fas fa-calendar-plus"></i> Booking Kelas
+                        {{-- FIX: pakai nama_kelas (bukan nama) --}}
+                        <button class="btn-booking" onclick="openBooking('{{ addslashes($kelas->nama_kelas) }}')"
+                            {{ $penuh ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
+                            <i class="fas fa-calendar-plus"></i>
+                            {{ $penuh ? 'Kelas Penuh' : 'Booking Kelas' }}
                         </button>
                     </div>
 
@@ -149,11 +216,6 @@
 @section('scripts')
 <script>
     // ============================================================
-    // DATA dari Controller
-    // ============================================================
-    // const kelasData = @json($kelasList);
-
-    // ============================================================
     // FILTER: search input
     // ============================================================
     function filterKelas() {
@@ -172,11 +234,12 @@
     // MODAL DETAIL
     // ============================================================
     function openDetail(id) {
-        const k = kelasData.find(x => x.id === id);
+        // FIX: pakai field yang benar: nama_kelas, deskripsi, biaya
+        const k = kelasData.find(x => x.id_kelas === id);
         if (!k) return;
 
-        document.getElementById('modalNama').textContent = k.nama;
-        document.getElementById('modalDesc').textContent = k.keterangan;
+        document.getElementById('modalNama').textContent = k.nama_kelas;
+        document.getElementById('modalDesc').textContent = k.deskripsi;
 
         document.getElementById('modalMeta').innerHTML = `
             <div class="kelas-meta-item">
@@ -185,13 +248,8 @@
             </div>
             <div class="kelas-meta-item">
                 <i class="fas fa-tag"></i>
-                <span><strong>Harga:</strong> Rp ${Number(k.harga).toLocaleString('id-ID')} / sesi</span>
+                <span><strong>Harga:</strong> Rp ${Number(k.biaya).toLocaleString('id-ID')} / sesi</span>
             </div>
-        `;
-
-        document.getElementById('modalDates').innerHTML = `
-            <span>📅 Dibuat: ${formatDate(k.created_at)}</span>
-            <span>🔄 Diperbarui: ${formatDate(k.updated_at)}</span>
         `;
 
         document.getElementById('modalDetail').classList.add('open');
@@ -205,15 +263,6 @@
 
     function closeDetailOnOverlay(e) {
         if (e.target.id === 'modalDetail') closeDetail();
-    }
-
-    // ============================================================
-    // HELPER: format tanggal
-    // ============================================================
-    function formatDate(str) {
-        if (!str) return '-';
-        const d = new Date(str);
-        return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
     }
 
     // Tombol booking di modal
