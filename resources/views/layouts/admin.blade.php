@@ -52,7 +52,7 @@
                class="nav-item {{ request()->routeIs('admin.manage-admin') || request()->routeIs('admin.admin.*') ? 'active' : '' }}">
                 <i class="fas fa-users-cog"></i> Kelola Admin
             </a>
-            <a href="#" class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.laporan') }}" class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i> Laporan
             </a>
             <a href="{{ route('admin.pengaturan') }}" class="nav-item {{ request()->routeIs('admin.pengaturan') ? 'active' : '' }}">

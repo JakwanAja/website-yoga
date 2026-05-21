@@ -64,7 +64,9 @@
 
     {{-- Ambil sampai 4 kelas terbaru dari DB (View::composer menyediakan $kelases) --}}
     @php
-        $kelasList = ($kelases ?? collect())->take(4);
+        $kelasList      = ($kelases ?? collect())->take(4);
+        $jadwalPerKelas = ($jadwals ?? collect())
+            ->groupBy(fn($j) => $j->kelas->nama_kelas ?? '');
     @endphp
 
     <section id="class" class="class-section">
@@ -82,9 +84,14 @@
                         'linear-gradient(135deg, #a18cd1, #fbc2eb)',
                         'linear-gradient(135deg, #f6d365, #fda085)'
                     ];
-                    $bg = $gradients[$loop->index % count($gradients)];
-                    $inisial = strtoupper(substr($kelas->nama_kelas, 0, 1));
+                    $bg        = $gradients[$loop->index % count($gradients)];
+                    $inisial   = strtoupper(substr($kelas->nama_kelas, 0, 1));
                     $hasGambar = !empty($kelas->foto) && file_exists(public_path('uploads/kelas/' . $kelas->foto));
+
+                    $jadwalKelas    = $jadwalPerKelas[$kelas->nama_kelas] ?? collect();
+                    $sisaKuotaTotal = $jadwalKelas->sum('sisa_kuota');
+                    $adaJadwal      = $jadwalKelas->count() > 0;
+                    $penuh          = $adaJadwal && $sisaKuotaTotal <= 0;
                 @endphp
 
                 <div class="class-card">
@@ -105,11 +112,47 @@
                         <h3>{{ $kelas->nama_kelas }}</h3>
                         <p>{{ \Illuminate\Support\Str::limit($kelas->deskripsi, 140) }}</p>
 
-                        {{-- Meta info: instruktur --}}
+                        {{-- Meta info: instruktur & status kuota --}}
                         <div class="class-meta-row">
-                            <span class="class-meta-item"><i class="fas fa-user-tie"></i> {{ $kelas->instruktur }}</span>
-                            <span class="class-meta-item"><i class="fas fa-users"></i> Tersedia</span>
+                            <span class="class-meta-item">
+                                <i class="fas fa-user-tie"></i> {{ $kelas->instruktur }}
+                            </span>
+                            <span class="class-meta-item">
+                                @if(!$adaJadwal)
+                                    <span class="kuota-badge" style="background:#e5e7eb;color:#6b7280;">Belum Ada Jadwal</span>
+                                @elseif($penuh)
+                                    <span class="kuota-badge" style="background:#fee2e2;color:#991b1b;">Penuh</span>
+                                @else
+                                    <span class="kuota-badge available">Tersedia</span>
+                                @endif
+                            </span>
                         </div>
+
+                        {{-- Jadwal tersedia --}}
+                        @if($adaJadwal)
+                            <div class="kelas-jadwal" style="margin-top:10px;">
+                                <p style="font-size:0.78rem;font-weight:600;color:#7c6b5e;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">
+                                    <i class="fas fa-calendar-alt"></i> Jadwal Tersedia
+                                </p>
+                                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                                    @foreach($jadwalKelas as $jadwal)
+                                        @php $habis = $jadwal->sisa_kuota !== null && $jadwal->sisa_kuota <= 0; @endphp
+                                        <span style="
+                                            font-size:0.75rem;
+                                            padding:3px 10px;
+                                            border-radius:20px;
+                                            background:{{ $habis ? '#fee2e2' : '#f0fdf4' }};
+                                            color:{{ $habis ? '#991b1b' : '#166534' }};
+                                            border:1px solid {{ $habis ? '#fca5a5' : '#86efac' }};
+                                        ">
+                                            {{ ucfirst($jadwal->hari) }},
+                                            {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} WIB
+                                            @if($habis) · Penuh @endif
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
 
                         {{-- Harga --}}
                         <div class="class-price-row">
@@ -118,8 +161,11 @@
                         </div>
 
                         {{-- Tombol Booking --}}
-                        <button class="class-btn class-btn-book" onclick="openBooking('{{ addslashes($kelas->nama_kelas) }}')">
-                            <i class="fas fa-calendar-plus"></i> Booking Kelas
+                        <button class="class-btn class-btn-book"
+                                onclick="openBooking('{{ addslashes($kelas->nama_kelas) }}')"
+                                {{ $penuh ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
+                            <i class="fas fa-calendar-plus"></i>
+                            {{ $penuh ? 'Kelas Penuh' : 'Booking Kelas' }}
                         </button>
 
                     </div>
