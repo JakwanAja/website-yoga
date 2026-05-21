@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\ManageAdminController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\PengaturanController;
 use App\Models\JadwalModel; 
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
@@ -91,7 +92,9 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/kelola-admin-page', fn() => view('admin.kelola-admin'))->name('admin.kelola-admin');
         Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
-        Route::get('/pengaturan',   fn() => view('admin.pengaturan'))->name('admin.pengaturan');
+        Route::get('/pengaturan',              [PengaturanController::class, 'index'])->name('admin.pengaturan');
+        Route::put('/pengaturan/profil',   [PengaturanController::class, 'updateProfil'])->name('admin.pengaturan.profil');
+        Route::put('/pengaturan/password', [PengaturanController::class, 'updatePassword'])->name('admin.pengaturan.password');
 
         // Manage Admin CRUD
         Route::get('/manage-admin',              [ManageAdminController::class, 'index'])->name('admin.manage-admin');

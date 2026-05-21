@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    {{-- Stat Cards --}}
+    {{-- Stat Cards 
     <div class="stats-grid">
         <div class="stat-card c1">
             <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 12%</span>
@@ -47,12 +47,10 @@
             <div class="stat-value">—</div>
             <div class="stat-label">Jadwal Hari Ini</div>
         </div>
-    </div>
+    </div> --}}
 
     {{-- Content Grid --}}
-    <div class="content-grid">
-
-        {{-- Booking Terbaru --}}
+    {{--  <div class="content-grid">
         <div class="panel">
             <div class="panel-header">
                 <span class="panel-title">Booking Terbaru</span>
@@ -78,7 +76,7 @@
             </table>
         </div>
 
-        {{-- Quick Actions --}}
+        {{-- Quick Actions
         <div class="panel">
             <div class="panel-header">
                 <span class="panel-title">Quick Actions</span>
@@ -104,7 +102,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div>  --}}
 
     {{-- Bottom Grid --}}
     <div class="bottom-grid">

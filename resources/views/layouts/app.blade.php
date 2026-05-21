@@ -211,21 +211,20 @@
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="{{ route('home') }}#home">Home</a></li>
-                    <li><a href="{{ route('home') }}#about">About Us</a></li>
-                    <li><a href="{{ route('kelas') }}#class">Classes</a></li>
-                    <li><a href="{{ route('home') }}#schedule">Schedule</a></li>
-                    <!-- <li><a href="#" onclick="openLogin(); return false;">Login</a></li> -->
+                    <li><a href="{{ route('home') }}#home">Beranda</a></li>
+                    <li><a href="{{ route('home') }}#about">Tentang Kami</a></li>
+                    <li><a href="{{ route('kelas') }}#class">Kelas</a></li>
+                    <li><a href="{{ route('home') }}#schedule">Jadwal</a></li>
                 </ul>
             </div>
 
             <div class="footer-links">
                 <h4>Kelas</h4>
                 <ul>
-                    <li><a href="#">Beginner Yoga</a></li>
-                    <li><a href="#">Pilates Core</a></li>
-                    <li><a href="#">Yoga Relax</a></li>
-                    <li><a href="#">Private Session</a></li>
+                    <li><a href="#">Viyasa Flow</a></li>
+                    <li><a href="#">Hatha Flow</a></li>
+                    <li><a href="#">Parental Group Session</a></li>
+                    <li><a href="#">Parental Yoga Reguler</a></li>
                 </ul>
             </div>
 
@@ -282,19 +281,6 @@
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes('#' + current)) {
                     link.classList.add('active');
-                }
-            });
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const hash = this.getAttribute('href').split('#')[1];
-                if (!hash) return;
-                const target = document.querySelector('#' + hash);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
