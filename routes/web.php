@@ -84,6 +84,11 @@ Route::prefix('admin')
         Route::put('/booking/{id}',              [BookingController::class, 'update'])->name('admin.booking.update');
         Route::patch('/booking/{id}/status',     [BookingController::class, 'updateStatus'])->name('admin.booking.status');
         Route::delete('/booking/{id}',           [BookingController::class, 'destroy'])->name('admin.booking.destroy');
+
+        // Pengaturan Akun — bisa diakses admin & superadmin
+        Route::get('/pengaturan',              [PengaturanController::class, 'index'])->name('admin.pengaturan');
+        Route::put('/pengaturan/profil',       [PengaturanController::class, 'updateProfil'])->name('admin.pengaturan.profil');
+        Route::put('/pengaturan/password',     [PengaturanController::class, 'updatePassword'])->name('admin.pengaturan.password');
     });
 
 // ── Super Admin ──────────────────────────────────────────────
@@ -92,9 +97,6 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/kelola-admin-page', fn() => view('admin.kelola-admin'))->name('admin.kelola-admin');
         Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
-        Route::get('/pengaturan',              [PengaturanController::class, 'index'])->name('admin.pengaturan');
-        Route::put('/pengaturan/profil',   [PengaturanController::class, 'updateProfil'])->name('admin.pengaturan.profil');
-        Route::put('/pengaturan/password', [PengaturanController::class, 'updatePassword'])->name('admin.pengaturan.password');
 
         // Manage Admin CRUD
         Route::get('/manage-admin',              [ManageAdminController::class, 'index'])->name('admin.manage-admin');

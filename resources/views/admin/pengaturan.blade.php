@@ -292,7 +292,7 @@
             {{ strtoupper(substr($user->nama_user, 0, 1)) }}
         </div>
         <div class="profile-name">{{ $user->nama_user }}</div>
-        <div class="profile-username">@{{ $user->username }}</div>
+        <div class="profile-username">{{ $user->username }}</div>
         <span class="profile-role-badge {{ $user->role }}">
             {{ $user->role === 'superadmin' ? 'Super Admin' : 'Admin' }}
         </span>
@@ -447,7 +447,7 @@
             </div>
             <div class="info-row">
                 <span class="info-row-label">Username</span>
-                <span class="info-row-value">@{{ $user->username }}</span>
+                <span class="info-row-value">{{ $user->username }}</span>
             </div>
             <div class="info-row">
                 <span class="info-row-label">Role</span>

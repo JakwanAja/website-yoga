@@ -45,18 +45,21 @@
                class="nav-item {{ request()->routeIs('admin.jadwal*') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i> Jadwal
             </a>
+            <a href="{{ route('admin.pengaturan') }}"
+               class="nav-item {{ request()->routeIs('admin.pengaturan*') ? 'active' : '' }}">
+                <i class="fas fa-cog"></i> Pengaturan
+            </a>
 
+            {{-- Menu khusus Super Admin --}}
             @if(auth()->user()?->role === 'superadmin')
             <div class="nav-section-label">Super Admin</div>
             <a href="{{ route('admin.manage-admin') }}"
                class="nav-item {{ request()->routeIs('admin.manage-admin') || request()->routeIs('admin.admin.*') ? 'active' : '' }}">
                 <i class="fas fa-users-cog"></i> Kelola Admin
             </a>
-            <a href="{{ route('admin.laporan') }}" class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.laporan') }}"
+               class="nav-item {{ request()->routeIs('admin.laporan') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i> Laporan
-            </a>
-            <a href="{{ route('admin.pengaturan') }}" class="nav-item {{ request()->routeIs('admin.pengaturan') ? 'active' : '' }}">
-                <i class="fas fa-cog"></i> Pengaturan
             </a>
             @endif
         </nav>
@@ -80,9 +83,6 @@
         </div>
     </aside>
 
-    <!-- ══════════════════════════════
-         MAIN
-    ══════════════════════════════ -->
     <div class="main">
 
         <!-- TOPBAR -->
