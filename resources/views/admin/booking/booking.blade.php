@@ -173,6 +173,20 @@
                                             </form>
                                         @endif
                                     @endforeach
+
+                                    @php
+                                        $emailSubject = 'Booking Asha Studio #' . str_pad($bk->kode_booking, 4, '0', STR_PAD_LEFT);
+                                        $emailBody = "Halo {$bk->nama},\n\nBooking Anda (kode #" . str_pad($bk->kode_booking, 4, '0', STR_PAD_LEFT) . ") saat ini berstatus \"{$bk->status_info['label']}\".";
+                                        if ($bk->jadwal) {
+                                            $emailBody .= "\nJadwal: {$bk->jadwal->hari_label}, " . \Carbon\Carbon::parse($bk->jadwal->jam_mulai)->format('H:i') . " WIB.";
+                                        }
+                                        $emailBody .= "\n\nTerima kasih,\nAsha Studio";
+                                        $gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=' . rawurlencode($bk->email) . '&su=' . rawurlencode($emailSubject) . '&body=' . rawurlencode($emailBody);
+                                    @endphp
+
+                                    <a href="{{ $gmailLink }}" class="bk-status-option bk-status-email" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-envelope"></i> Kirim Email
+                                    </a>
                                 </div>
                             </div>
                         </td>

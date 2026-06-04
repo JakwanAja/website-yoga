@@ -83,6 +83,7 @@ Route::prefix('admin')
         Route::get('/booking/{id}/edit',         [BookingController::class, 'edit'])->name('admin.booking.edit');
         Route::put('/booking/{id}',              [BookingController::class, 'update'])->name('admin.booking.update');
         Route::patch('/booking/{id}/status',     [BookingController::class, 'updateStatus'])->name('admin.booking.status');
+        Route::post('/booking/{id}/email',        [BookingController::class, 'sendEmail'])->name('admin.booking.email');
         Route::delete('/booking/{id}',           [BookingController::class, 'destroy'])->name('admin.booking.destroy');
 
         // Pengaturan Akun — bisa diakses admin & superadmin

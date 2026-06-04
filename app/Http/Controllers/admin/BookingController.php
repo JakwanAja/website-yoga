@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\JadwalModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -115,6 +117,44 @@ class BookingController extends Controller
 
         return redirect()->route('admin.booking')
             ->with('success', "Status booking #{$id} diperbarui menjadi \"{$request->status}\".");
+    }
+
+    /**
+     * ────────────────────────────────────────
+     * ADMIN — Kirim informasi booking ke email peserta
+     * ────────────────────────────────────────
+     */
+    public function sendEmail(int $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        if (!$booking->email) {
+            return redirect()->route('admin.booking')
+                ->with('error', 'Email peserta tidak tersedia.');
+        }
+
+        $subject = 'Informasi Booking Anda #' . str_pad($booking->kode_booking, 4, '0', STR_PAD_LEFT);
+        $jadwalText = $booking->jadwal
+            ? "pada hari {$booking->jadwal->hari_label}, jam " . Carbon::parse($booking->jadwal->jam_mulai)->format('H:i') . " WIB"
+            : 'untuk jadwal yang belum ditentukan';
+
+        $body = "Halo {$booking->nama},\n\n" .
+            "Booking Anda (kode #" . str_pad($booking->kode_booking, 4, '0', STR_PAD_LEFT) . ") saat ini berstatus \"{$booking->status_info['label']}\" dan dijadwalkan {$jadwalText}.\n\n" .
+            "Terima kasih telah melakukan booking di Asha Studio. Jika Anda membutuhkan bantuan lebih lanjut, balas email ini atau hubungi kami.\n\n" .
+            "Salam,\nAsha Studio";
+
+        try {
+            Mail::raw($body, function ($message) use ($booking, $subject) {
+                $message->to($booking->email, $booking->nama)
+                    ->subject($subject);
+            });
+
+            return redirect()->route('admin.booking')
+                ->with('success', "Email berhasil dikirim ke {$booking->email}.");
+        } catch (\Exception $e) {
+            return redirect()->route('admin.booking')
+                ->with('error', 'Gagal mengirim email. Periksa konfigurasi mail server.');
+        }
     }
 
     /**

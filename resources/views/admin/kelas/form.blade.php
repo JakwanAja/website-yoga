@@ -90,7 +90,9 @@
                         </div>
 
                         <div class="bk-edit-actions">
-                            <button class="btn btn-primary">{{ $isEdit ? 'Simpan Perubahan' : 'Tambah Kelas' }}</button>
+                            <button class="btn-primary">
+                               <i class="fas fa-save"></i> {{ $isEdit ? 'Simpan Perubahan' : 'Tambah Kelas' }}
+                            </button>
                             <a href="{{ route('admin.kelas') }}" class="bk-btn-cancel">Batal</a>
                         </div>
                     </form>

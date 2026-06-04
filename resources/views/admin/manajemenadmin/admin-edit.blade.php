@@ -7,11 +7,18 @@
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 <link rel="stylesheet" href="{{ asset('css/booking.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+    .bk-edit-wrap {
+        max-width: 520px;
+        margin: 0 auto;
+    }
+</style>
 @endsection
 
 @section('content')
-
-<div class="panel" style="max-width:520px;">
+<div class="container">
+    <div class="bk-edit-wrap">
+        <div class="panel">
     <div class="panel-header">
         <span class="panel-title">Edit Admin: {{ $admin->nama_user }}</span>
         <a href="{{ route('admin.manage-admin') }}" class="panel-action">
@@ -114,14 +121,16 @@
 
             <div style="display:flex; gap:12px; margin-top:8px;">
                 <button type="submit" class="btn-primary" style="flex:1;">
-                    <i class="fas fa-save"></i> Simpan Perubahan
+                    <i class="fas fa-save"></i>Simpan Perubahan
                 </button>
                 <a href="{{ route('admin.manage-admin') }}"
-                   class="btn-secondary" style="flex:1; text-align:center; text-decoration:none;">
+                   class="bk-btn-cancel" style="flex:1; text-align:center; text-decoration:none;">
                     Batal
                 </a>
             </div>
         </form>
+    </div>
+</div>
     </div>
 </div>
 
