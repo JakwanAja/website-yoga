@@ -28,14 +28,14 @@
             </div>
         </div>
         <div class="hero-right">
-            <img src="{{ asset('images/home.jpeg') }}" alt="Yoga Studio">
+            <img src="{{ asset('images/ashayoga.jpeg') }}" alt="Yoga Studio">
         </div>
     </section>
 
     <!-- ========== ABOUT SECTION ========== -->
     <section id="about" class="about-section">
         <div class="about-left">
-            <img src="{{ asset('images/studio.jpeg') }}" alt="Studio Interior">
+            <img src="{{ asset('images/image2.jpeg') }}" alt="Studio Interior">
         </div>
         <div class="about-right">
             <span class="section-tag">TENTANG KAMI</span>
